@@ -21,8 +21,8 @@ public class GCMSender {
 
   final static String Project_ID = "magpackv-1-0";
   final static String GCM_sender_ID = "150098184016"; //Project Number
-  //    final static String API_key="AIzaSyBGuHnEnUFTE59ZtQTYT0ga1m9wKhw9fC4";
-  final static String API_key = "AIzaSyCya_sLvWUxwCaNVgK5mSsx4OhsHhLDjWk";
+  // TODO: Replace with your GCM API key from Google Cloud Console
+  final static String API_key = "YOUR_GCM_API_KEY_HERE";
   final static String collpaseKey = "gcm_message";
   final static Sender sender = new Sender(API_key);
   private static GCMSender ourInstance = new GCMSender();
