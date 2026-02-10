@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/breadcrumbcomp.xhtml">
+    <ui:define name="content">
+        <f:event listener="#{breadCrumbNav.navigateSpecTitle}" type="preRenderView"/>
+        <h:form id="magazinefrm">
+            <h:panelGrid columns="2" id="magazinemagtab" style="height: 100%;width:#{statistics.width};">
+                <p:column>
+                    <p:dataTable
+                            emptyMessage="#{text['no.records.found']}"
+                            id="magazinesdtbl"
+                            styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker"
+                            draggableRows="true" var="magtbl1spectitle" value="#{pubUserDet.magazineRepSpecTitles}"
+                            currentPageReportTemplate="{currentPage} #{text['of.text']} {totalRecords}"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown} "
+                            rowsPerPageTemplate="10,25,50,100"
+                            editable="true" editMode="cell"
+                            tableStyle="width:100%;overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                            lazy="false">
+
+
+                        <p:column headerText="#{text['issue.text']}">
+
+                            <p:commandLink style="color:#269abc;"
+                                           value="#{statistics.getNonFullFormatDate(magtbl1spectitle.magazine_tblTable.orig_issue_date)}"
+                                           onclick="uibrc()"
+                                           actionListener="#{pubUserDet.getGetIssueSelectedAndRedirectToSelectdeSpecIssue(magtbl1spectitle)}">
+                            </p:commandLink>
+
+
+                        </p:column>
+                        <p:column headerText="#{text['reader.age.avg.text']}">
+
+                            <h:outputText value="#{magtbl1spectitle.averageReaderAge}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </h:outputText>
+
+                        </p:column>
+                        <p:column headerText="#{text['geo.hotspot.postcode.text']}">
+                            <h:outputText value="#{magtbl1spectitle.geogrHotspotPostCode}"/>
+                        </p:column>
+                        <p:column headerText="#{text['page.view.avg.text']}">
+                            <h:outputText value="#{magtbl1spectitle.averagePageViews}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{text['page.view.total.text']}">
+
+                            <h:outputText value="#{magtbl1spectitle.totalPageViews}"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['adpage.view.total.text']}">
+
+                            <h:outputText value="#{magtbl1spectitle.totalAdPageViews}" style="width: 72%"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['reading.length.avg.text']}">
+
+                            <h:outputText
+                                    value="#{statistics.getInHHmmssFormatDouble(magtbl1spectitle.averageLengthPerReadingSession)}"
+                                    style="width: 72%"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['reading.session.total.text']}">
+
+                            <h:outputText value="#{magtbl1spectitle.totalaReadingsessions}" style="width: 72%"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['revenue.earned.text']}">
+
+                            <h:outputText value="#{magtbl1spectitle.revenuesEarned}" style="width: 72%">
+                                <f:convertNumber pattern="#,###,##0.00 €" maxIntegerDigits="10"/>
+
+                            </h:outputText>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['download.total.text']} / #{text['range.text']}">
+
+                            <h:outputText value="#{magtbl1spectitle.totalDownloadsPerReach}" style="width: 72%"/>
+
+                        </p:column>
+                        <f:facet name="footer">
+
+                            <h:commandLink>
+                                <p:graphicImage style="width: 50px;height: 60px;" value="/icons/xml.gif"
+                                                title="#{text['excel.label']}"/>
+                                <p:dataExporter type="xls" fileName="magpack" target="magazinesdtbl"/>
+
+                            </h:commandLink>
+
+                            <!--<h:commandLink value="Page Data"  >-->
+                            <!--<p:graphicImage value="/icons/xml.png" title="Page Data" style="float: right"/>-->
+                            <!--<p:dataExporter type="xls" fileName="magpack"  target="magazinesdtbl" pageOnly="true"/>-->
+
+                            <!--</h:commandLink>-->
+
+                        </f:facet>
+                    </p:dataTable>
+                    <p:remoteCommand name="uibrc" id="rcuiid1"/>
+                    <p:blockUI id="blockui" block="magazinesdtbl" trigger="rcuiid1">
+                        #{text['wait.message']}<br/>
+                        <p:graphicImage value="/icons/loading.gif"/>
+                    </p:blockUI>
+                </p:column>
+
+            </h:panelGrid>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</html>

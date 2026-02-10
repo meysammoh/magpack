@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/templatePage.xhtml">
+    <ui:define name="content">
+        <f:event listener="#{pubUserDet.canUploadImage}" type="preRenderView"/>
+        <p:panel id="titlepanel" header="#{text['select.title.msg.text']}" style="width:#{statistics.width};">
+
+            <h:form id="gridform">
+                <p:growl />
+                <p:growl globalOnly="true" id="growlpubtabs" life="1000" sticky="flase" showDetail="false"/>
+                <h:panelGrid columns="2" id="uploadgrid" columnClasses="label, value" cellspacing="1">
+
+                    <p:column width="300">
+                        <p:outputLabel value="#{text['select.title.msg.text']}" style="width: 350px;"/>
+                    </p:column>
+                    <p:column width="500">
+                        <p:autoComplete id="titleauto" style="width: 350px;" scrollHeight="300" immediate="true"
+                                        forceSelection="false"
+                                        onkeypress="if(event.keyCode==13){event.keyCode=9;return false;}"
+                                        valueChangeListener="#{pubUserDet.titleCahngeListener}"
+                                        value="#{pubUserDet.currenttitle}"
+                                        dropdown="true" itemValue="#{pubUserDet.currenttitle}"
+                                        completeMethod="#{statistics.getAllTitles}"
+                                        size="300" required="true">
+
+                            <p:ajax event="itemSelect" listener="#{pubUserDet.titleListener}"
+                                    update="pdfformid:fileuploader"/>
+                            <p:ajax event="keyup" update="pdfformid:fileuploader"/>
+
+                        </p:autoComplete>
+
+                        <p:watermark value="#{text['titles.watermark.text']}" for="titleauto"/>
+                    </p:column>
+                </h:panelGrid>
+                <p:panel id="uploadpanel1" header="#{text['upload.msg.text']}" style="margin-bottom:20px">
+                    <h:panelGrid id="uploadgrid1" columns="2" cellpadding="10">
+
+                        <h:form id="pdfformid" enctype="multipart/form-data">
+                            <p:growl id="growlpubtabsfileupload" life="2000" sticky="flase" showDetail="false"/>
+
+                            <!--<p:remoteCommand name="updateelaolan" update="pdfformid:fileuploader"/>-->
+
+                            <p:fileUpload
+                                    id="fileuploader"
+                                    fileUploadListener="#{pubUserDet.upload}"
+                                    required="true"
+                                    auto="true"
+                                    disabled="#{pubUserDet.canNotUpload}"
+                                    widgetVar="fileupwidget"
+                                    label="#{text['select.file.btn.text']}"
+                                    dragDropSupport="true"
+                                    multiple="false"
+                                    sizeLimit="204800000"
+                                    allowTypes="/(\.|\/)(PDF|pdf)$/"
+                                    invalidSizeMessage=" File Is too big. Max PDF size 200 MB."
+                                    process="@this"
+                                    invalidFileMessage="Just PDF!"
+                                    update=" :titlepanel growlpubtabsfileupload  :donepart  "
+                                    previewWidth="200"
+                                    />
+
+                            <p:growl globalOnly="true" id="messages" life="250" sticky="false"/>
+                        </h:form>
+
+                        <br/>
+                    </h:panelGrid>
+                    <!--<p:messages id="allllmessages"/>-->
+                    <h:outputStylesheet>
+                        table input {
+                            width: 100%;
+                        }
+
+                        .ui-state-highlight {
+                            color: #269abc;
+                        }
+
+                        .ui-button-icon-only {
+                            width: 2.0em;
+                        }
+
+                        #gridform\:pdfformid\:fileuploader_input {
+                            transform: translate(-100px, 0px) scale(4);
+                        }
+
+                        table tr td {
+                            padding: 1px;
+                        }
+                    </h:outputStylesheet>
+                    <p:dataTable emptyMessage="#{text['no.records.found']}"
+                                 id="uplvdatatablee" widgetVar="dttbleup" var="magtbl"
+                                 value="#{pubUserDet.uploadedMagazine}"
+                                 rowStyleClass="align-center"
+                                 editable="true"
+                                 currentPageReportTemplate="{currentPage} #{text['of.text']} {totalRecords}"
+
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown} "
+                                 rowsPerPageTemplate="10,25,50,100"
+                                 paginatorAlwaysVisible="false"
+                                 scrollable="true" scrollHeight="180" paginator="true" rows="5"
+                                 tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                                 lazy="false">
+                        <f:facet name="header">
+                            #{text['upload.tbl.header.text']}
+                        </f:facet>
+
+                        <p:column headerText="#{text['file.name.text']}">
+                            <p:outputLabel value="#{magtbl.fileName}" style="color: black!important;"/>
+                        </p:column>
+
+                        <!--<p:column headerText="#{text['title.name.text']}" width="55">
+                            <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{magtbl.title}"/></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{magtbl.title}" disabled="true">
+                                    <p:ajax event="keyup" listener="#{magtbl.nameOfTitleValueChangeListenerMethod}"/>
+
+                                </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>-->
+                        <p:column headerText="#{text['title.cat.text']}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.uiCategory}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:autoComplete forceSelection="true" dropdown="true"
+                                                    required="true"
+                                                    value="#{magtbl.uiCategory}"
+
+                                                    completeMethod="#{statistics.getAllCategoriesInLocalString}"
+                                                    style="width: 70%;float:#{localeBean.language eq 'fa'? 'right':'left'};"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="#{text['magazine.type']}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{magtbl.uiMagazineType}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="magazinetypeid" required="true" rendered="true"
+                                                     style="width: 90%;"
+                                                     value="#{magtbl.uiMagazineType}">
+                                        <f:selectItem itemLabel="#{text['select.magazine.type']}" itemValue=""/>
+                                        <f:selectItems value="#{statistics.magazineTypes()}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="#{text['issue.number.text']}" width="5%">
+                            <p:cellEditor>
+                                <f:facet name="output"> <h:outputText value="#{magtbl.issue_num}"
+                                                                      immediate="true"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText value="#{magtbl.issue_num}" required="true" immediate="true"
+                                                 style="width: 50%"
+                                                 validatorMessage="#{text['issue.number.validator.message']}">
+                                        <p:ajax event="keyup"
+                                                listener="#{magtbl.issueNumberValueChangeListenerMethod}"/>
+                                    </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <!--  <p:column headerText="#{text['issue.year.text']}">
+                              <p:cellEditor>
+                                  <f:facet name="output"><h:outputText value="#{magtbl.issue_year}"/>
+                                  </f:facet>
+                                  <f:facet name="input">
+                                      <p:selectOneMenu id="yearofissuesel" required="true" rendered="true"
+                                                       style="width: 90%;"
+                                                       value="#{magtbl.issue_year}">
+                                          <f:selectItem itemLabel="#{text['issue.year.btn.text']}" itemValue=""/>
+                                          <f:selectItems value="#{statistics.getYearsRange()}"/>
+                                      </p:selectOneMenu>
+                                  </f:facet>
+                              </p:cellEditor>
+                          </p:column>-->
+                        <p:column headerText="#{text['price.text']}" width="100">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{magtbl.price}" rendered="true"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:spinner id="price" min="0" value="#{magtbl.price}"
+                                               stepFactor="1"/>
+
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <!-- <p:column headerText="#{text['appearance.text']}">
+                             <p:cellEditor>
+                                 <f:facet name="output"> <h:outputText value="#{magtbl.uiAppertype}"/></f:facet>
+                                 <f:facet name="input">
+                                     <p:autoComplete dropdown="true"
+                                                     style="width: 70%;float:#{localeBean.language eq 'fa'? 'right':'left'};"
+                                                     value="#{magtbl.uiAppertype}"
+                                                     completeMethod="#{statistics.getAppreanceTypes}"
+                                                     required="true"/></f:facet>
+                             </p:cellEditor>
+
+                         </p:column>-->
+
+                        <p:column style="justify-content: center;" headerText="#{text['orig.issue.date']}" width="100">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.orig_issue_date}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                    </h:outputText></f:facet>
+                                <f:facet name="input">
+                                    <p:calendar pattern="yyyy/MM/dd" size="10" required="true"
+                                                style="width: 100px;!important"
+                                                value="#{magtbl.orig_issue_date}">
+                                        <p:ajax event="dateSelect" listener="#{magtbl.handleDateSelectOrigIssue}"/>
+                                    </p:calendar></f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+                        <p:column headerText="#{text['appear.lbl.text']}" width="160" colspan="2">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.imediate}" style="display: none"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="ishall2" required="true" value="#{magtbl.imediate}"
+                                                     style="width: 40%;">
+                                        <p:ajax event="change" process="@this" update="onthistimedee"/>
+                                        <f:selectItem itemValue="Immediatly"
+                                                      itemLabel="#{text['appearance.imedit.text']}"/>
+                                        <f:selectItem itemValue="On this time"
+                                                      itemLabel="#{text['appearance.ontime.text']}"/>
+
+                                    </p:selectOneMenu>
+                                </f:facet>
+
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.issue_appear}" style="width: 35%!important;">
+                                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                    </h:outputText>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:calendar id="onthistimedee" pattern="yyyy/MM/dd"
+                                                disabled="#{magtbl.immediatedee}"
+                                                value="#{magtbl.issue_appear}"
+                                                style="width: 53%!important;display: inline-block;">
+                                        <p:ajax event="dateSelect" listener="#{magtbl.handleDateSelectissue_appear}"/>
+
+                                    </p:calendar>
+                                </f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+
+                        <p:column headerText="#{text['keywords']}" width="70">
+                            <h:form enctype="multipart/form-data">
+                                <p:commandLink value="#{text['change.keywords']}" process="@form"
+                                               actionListener="#{magtbl.initKeywordsMBean}"
+                                               oncomplete="PF('keywordDialog').show()"
+                                               id="keywordscommandlinkid"/>
+                            </h:form>
+                        </p:column>
+                        <p:column headerText="#{text['description']}" width="70">
+                            <h:form enctype="multipart/form-data">
+                                <p:commandLink value="#{text['change.description']}" process="@form"
+                                               actionListener="#{magtbl.initDescriptionMBean}"
+                                               oncomplete="PF('descriptionDialog').show()"
+                                               id="descriptioncommandlinkid"/>
+                            </h:form>
+                        </p:column>
+                        <p:column headerText="#{text['edit.text']}" width="50">
+                            <p:rowEditor/>
+                        </p:column>
+                        <p:column id="deletecol" headerText="#{text['delete.text']}" width="50">
+
+                            <p:commandLink id="deleteLink" value="#{text['delete.text']}"
+                                           styleClass="ui-icon ui-icon-trash"
+                                           actionListener="#{pubUserDet.deleteSelectedMag(magtbl)}" process="@this"
+                                           update="  :gridform:uplvdatatablee  ">
+                                <p:confirm header="Confirmation" message="#{text['delete.message']}"
+                                           icon="ui-icon-alert"/>
+                                <!--<p:ajax event="click" actionListener="#{pubUserDet.deleteSelectedMag(magtbl)}"  />-->
+
+                            </p:commandLink>
+                            <h:form id="deleteform">
+
+                                <p:confirmDialog global="true" showEffect="fade" message="#{text['delete.message']}"
+                                                 hideEffect="explode" severity="alert">
+                                    <p:commandButton value="#{text['yes.text']}" type="button"
+                                                     styleClass="ui-confirmdialog-yes" icon="ui-icon-check">
+                                        <!--oncomplete="PF('cd').hide()" onclick="delrcom()"-->
+                                    </p:commandButton>
+
+                                    <p:commandButton value="#{text['no.text']}" type="button"
+                                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                </p:confirmDialog>
+
+                            </h:form>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:panel>
+
+
+            </h:form>
+
+
+            <p:panelGrid columns="1" id="donepartgrid" style="z-index: 2000;">
+                <h:form id="donepart">
+
+                    <!--<p:growl id="growlpubtabs1"   sticky="flase" showDetail="false"/>-->
+                    <p:commandButton id="addmagazinebtn"
+                                     value="#{text['publish.btn.text']}" update="  :gridform:uplvdatatablee   "
+                                     onclick="rcccc()" oncomplete="rc1()" style="width: 500px;"/>
+                    <p:remoteCommand name="rcccc" actionListener="#{pubUserDet.uploadComplete}" process="@all"
+                                     update=" :gridform:growlpubtabs :gridform:uplvdatatablee   "/>
+                    <p:remoteCommand name="rc1" process="@all" update=" :gridform:uplvdatatablee   "/>
+                    <p:remoteCommand name="rc33" process="@all" update=" :gridform:uplvdatatablee   "/>
+
+                </h:form>
+
+            </p:panelGrid>
+            <!--<f:ajax-->
+        </p:panel>
+
+        <p:dialog id="dialog" header="Detail" widgetVar="keywordDialog"
+                  resizable="false" position="center center" height="700" width="600"
+                  appendToBody="true">
+
+            <p:growl showDetail="true"/>
+            <h:form enctype="multipart/form-data" id="kwdialogfrm" style="max-height: 600px;">
+
+                <p:panelGrid columns="1" style="height: 600px;width: 550px;">
+                    <p:panel header="#{text['add.keyword']}">
+                        <p:panelGrid columns="2">
+                            <h:outputLabel for="item" value="#{text['keyword']} : "/>
+                            <p:inputText id="item" value="#{keywordChangeDialog.newKeyword}"/>
+                            <f:facet name="footer">
+                                <p:commandButton value="#{text['add.btn.text']}" update=":kwdialogfrm"
+                                                 actionListener="#{keywordChangeDialog.addNewKeyword()}"/>
+                            </f:facet>
+                        </p:panelGrid>
+                        <p:spacer height="20px;"/>
+
+                        <p:dataTable
+                                emptyMessage="#{text['no.records.found']}"
+                                value="#{keywordChangeDialog.magazineKeywords}"
+                                var="o"
+                                scrollable="true" scrollHeight="200" paginator="true" rows="10"
+
+                                rowsPerPageTemplate="10,25,50,100"
+                                tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 12px;height: 25px;margin:0 auto;"
+                                lazy="false"
+                                >
+                            <f:facet name="header">
+                                #{text['keywords.list']}
+                            </f:facet>
+                            <!--  <p:ajax event="rowEdit" listener="#{keywordChangeDialog.onEdit}" />
+                              <p:ajax event="rowEditCancel" listener="#{keywordChangeDialog.onCancel}" />-->
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{text['keyword']}"/>
+                                </f:facet>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{o}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{o}" style="width:100%"/>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <!-- <p:column headerText="#{texr['edit.text']}" style="width:100px">
+                                 <p:rowEditor/>
+                             </p:column>-->
+                            <p:column headerText="#{text['delete.text']}">
+                                <p:commandLink value="#{text['delete.text']}"
+                                               actionListener="#{keywordChangeDialog.delete(o)}" update=":kwdialogfrm"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="descdialog" header="Detail" widgetVar="descriptionDialog"
+                  resizable="false" position="center center" height="500" width="600"
+                  appendToBody="true">
+
+            <p:growl showDetail="true"/>
+            <h:form enctype="multipart/form-data" id="descdialogfrm"  style="width: 100%;max-height: 600px;">
+
+                <p:panelGrid columns="1" >
+                    <p:panel header="#{text['description']}">
+                          <p:inputTextarea value="#{descriptionChangeDialog.currentMagazine.description}" style="width: 450px;height: 280px;"/>
+
+                   </p:panel>
+
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
+</html>

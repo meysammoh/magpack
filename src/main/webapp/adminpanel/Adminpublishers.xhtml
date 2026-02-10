@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/admintemplates/breadcrumbcompPublishers.xhtml">
+
+    <ui:define name="content">
+
+
+        <f:event listener="#{adminPublishersBreadCrumbNav.navigateAllPublishers}" type="preRenderView"/>
+
+        <p:panel>
+            <p:commandButton id="addNewPubButton" value="#{text['add.publisher.btn.text']}"
+                             actionListener="#{addPublisherView.viewNetStat}">
+                <p:ajax event="dialogReturn" update=":publishersListfrm"/>
+            </p:commandButton>
+        </p:panel>
+        <p:panel id="PublishersListContainer" style="width:#{statistics.width};margin: auto; ">
+            <h:form id="publishersListfrm">
+
+                <p:dataTable id="publisherstable"
+                             emptyMessage="#{text['no.records.found']}"
+
+                             var="pubsinf" value="#{adminControler.getAdminPublishers(false)}"
+                             currentPageReportTemplate="{currentPage} #{text['of.text']} {totalRecords}"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown} "
+                             rowsPerPageTemplate="10,25,50,100"
+                             tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 12px;height: 25px;margin:0 auto;"
+                             lazy="false">
+
+
+                    <p:column headerText="#{text['publisher.name.text']}">
+
+                        <p:commandLink
+                                value="#{pubsinf.pubcompanyHiberEntity.compname}" style="color: #2a6496"
+                                actionListener="#{adminControler.getBillDetailsAndGotoAdminPubDet(pubsinf)}">
+                        </p:commandLink>
+
+
+                    </p:column>
+                    <p:column headerText="#{text['upload.last.text']}">
+
+                        <h:outputText value="#{pubsinf.lastUploaded}"/>
+                    </p:column>
+                    <p:column headerText="#{text['file.name.text']}">
+                        <h:outputText value="#{pubsinf.lastIssueFileName}"/>
+                    </p:column>
+                    <p:column headerText="#{text['files.uploaded.text']}">
+                        <h:outputText value="#{pubsinf.filesUploaded}"/>
+                    </p:column>
+                    <p:column headerText="#{text['address.lbl.text']}">
+
+                        <h:outputText
+                                value="#{pubsinf.pubusersHiberEntity.streetname.concat(' '.concat(pubsinf.pubusersHiberEntity.streetnum))}"/>
+
+                    </p:column>
+
+                    <p:column headerText="#{text['city.lbl.text']}">
+
+                        <h:outputText value="#{pubsinf.pubusersHiberEntity.cityname}"/>
+
+                    </p:column>
+
+                    <p:column headerText="#{text['postcode.text']}">
+
+                        <h:outputText value="#{pubsinf.pubusersHiberEntity.citynum}"/>
+
+                    </p:column>
+
+                    <p:column headerText="#{text['country.lbl.text']}">
+
+                        <h:outputText value="#{pubsinf.pubusersHiberEntity.country}"/>
+
+                    </p:column>
+
+                    <p:column headerText="#{text['username.text']}">
+
+                        <h:outputText
+                                value="#{pubsinf.pubusersHiberEntity.firstname.concat(' '.concat(pubsinf.pubusersHiberEntity.lastname))}"/>
+
+                    </p:column>
+
+                    <p:column headerText="#{text['email.text']}">
+
+                        <h:outputText value="#{pubsinf.pubusersHiberEntity.email}"/>
+
+                    </p:column>
+                    <p:column headerText="#{text['phone.lbl.text']}">
+
+                        <h:outputText value="#{pubsinf.pubusersHiberEntity.phonenum}"/>
+
+                    </p:column>
+                    <p:column headerText="">
+
+                        <p:commandButton value="#{text['go.reporting.text']}"
+                                         actionListener="#{adminControler.gotoSelectedPublisherReporting(pubsinf)}"/>
+
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+
+</html>

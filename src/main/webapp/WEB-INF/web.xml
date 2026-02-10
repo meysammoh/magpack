@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This web.xml file is not required when using Servlet 3.0 container,
+     see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html -->
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <welcome-file-list>
+    <welcome-file>userpages/home.xhtml</welcome-file>
+  </welcome-file-list>
+  <description>MySQL data resource</description>
+  <resource-ref>
+    <description>DB Connection</description>
+    <res-ref-name>jdbc/magazinedb</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+  </context-param>
+  <!--<context-param>-->
+  <!--<param-name>primefaces.THEME</param-name>-->
+  <!--<param-value>bootstrap</param-value>-->
+  <!--</context-param>-->
+  <!--<context-param>-->
+  <!--<param-name>primefaces.THEME</param-name>-->
+  <!--<param-value>cupertino</param-value>-->
+  <!--</context-param>-->
+  <!--dock Error solution-->
+  <context-param>
+    <param-name>facelets.SKIP_COMMENTS</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>/web/</url-pattern>
+    <url-pattern>/pubpanel/</url-pattern>
+    <url-pattern>/adminpanel/</url-pattern>
+    <url-pattern>/userpages/</url-pattern>
+    <url-pattern>*.jsf</url-pattern>
+    <url-pattern>*.xhtml</url-pattern>
+
+    <!--<url-pattern>/web/*.xhtml</url-pattern>-->
+  </servlet-mapping>
+  <!--<listener>-->
+  <!--<listener-class>org.apache.myfaces.webapp.StartupServletContextListener</listener-class>-->
+  <!--</listener>-->
+
+
+  <!--jersey servlet -->
+  <servlet>
+    <servlet-name>Jersey Web Application</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+    <!--<init-param>-->
+    <!--<param-name>jersey.config.server.provider.packages</param-name>-->
+    <!--<param-value>ir.mjm.restpkg</param-value>-->
+    <!--</init-param>-->
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>ir.mjm.filtering.MyApplication</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Jersey Web Application</servlet-name>
+    <url-pattern>/webapi/*</url-pattern>
+  </servlet-mapping>
+
+
+  <!--primeface FileUpload-->
+  <filter>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <filter-class>
+      org.primefaces.webapp.filter.FileUploadFilter
+    </filter-class>
+    <init-param>
+      <param-name>thresholdSize</param-name>
+      <param-value>20480000</param-value>
+    </init-param>
+    <!-- Optional
+   <init-param>
+       <param-name>uploadDirectory</param-name>
+       <param-value>/var/bcom/temp</param-value>
+   </init-param>
+    -->
+  </filter>
+  <!--<filter>-->
+  <!--<filter-name>MyFacesExtensionsFilter</filter-name>-->
+  <!--<filter-class>org.apache.myfaces.webapp.filter.ExtensionsFilter</filter-class>-->
+  <!--<init-param>-->
+  <!--<param-name>maxFileSize</param-name>-->
+  <!--<param-value>20m</param-value>-->
+  <!--</init-param>-->
+  <!--</filter>-->
+
+  <filter-mapping>
+    <filter-name>PrimeFaces FileUpload Filter</filter-name>
+    <servlet-name>Faces Servlet</servlet-name>
+  </filter-mapping>
+  <!--<filter-mapping>-->
+  <!--<filter-name>MyFacesExtensionsFilter</filter-name>-->
+  <!--<servlet-name>Faces Servlet</servlet-name>-->
+  <!--</filter-mapping>-->
+
+
+  <security-constraint>
+    <!--<display-name>adminConstraint</display-name>-->
+    <web-resource-collection>
+      <web-resource-name>admin area</web-resource-name>
+      <description/>
+      <url-pattern>/adminpanel/*</url-pattern>
+      <http-method>*</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <description/>
+      <role-name>adminrole</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <display-name>publisherConstraint</display-name>
+    <web-resource-collection>
+      <web-resource-name>wrcoll</web-resource-name>
+      <description/>
+      <url-pattern>/publisherpanel/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <description/>
+      <role-name>publisherrole</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <display-name>userConstraint</display-name>
+    <web-resource-collection>
+      <web-resource-name>wrcoll</web-resource-name>
+      <description/>
+      <url-pattern>/userpages/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <description/>
+      <role-name>adminrole</role-name>
+      <role-name>publisherrole</role-name>
+      <role-name>userrole</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <!--<realm-name>file</realm-name>-->
+    <form-login-config>
+      <form-login-page>/web/login.xhtml</form-login-page>
+      <form-error-page>/web/error.xhtml</form-error-page>
+    </form-login-config>
+  </login-config>
+
+  <security-role>
+    <description/>
+    <role-name>adminrole</role-name>
+  </security-role>
+  <security-role>
+    <description/>
+    <role-name>publisherrole</role-name>
+  </security-role>
+  <security-role>
+    <description/>
+    <role-name>userrole</role-name>
+  </security-role>
+  <security-role>
+    <description/>
+    <role-name>publicrole</role-name>
+  </security-role>
+
+
+  <filter>
+    <filter-name>Loginfilter</filter-name>
+    <filter-class>ir.mjm.filtering.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Loginfilter</filter-name>
+    <url-pattern>/pubpanel/*</url-pattern>
+    <url-pattern>/adminpanel/*</url-pattern>
+  </filter-mapping>
+  <context-param>
+    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+    <param-value>true</param-value>
+  </context-param>
+
+</web-app>

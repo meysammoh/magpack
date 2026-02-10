@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/admintemplates/breadcrumbcompPublishers.xhtml">
+
+    <ui:define name="content">
+        <p:panel id="editpublisherpanel" style="width:#{statistics.width}; margin: auto;">
+            <f:event listener="#{adminPublishersBreadCrumbNav.navigateSpecPublisherEdit}" type="preRenderView"/>
+            <h:form id="editpublisherform">
+                <p:growl autoUpdate="true" life="5000"/>
+
+
+                <p:dataTable
+                        emptyMessage="#{text['no.records.found']}"
+                        id="editpublishertbl" widgetVar="dttbleup" var="pubsinf"
+                        value="#{adminControler.selectedPublisher}"
+                        editable="true"
+                        tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                        lazy="false">
+                    <f:facet name="header">
+                        Ediit Publisher
+                    </f:facet>
+
+                    <p:column headerText="#{text['publisher.name.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText
+                                    value="#{pubsinf.pubusersHiberEntity.firstname}"/></f:facet>
+                            <f:facet name="input"> <p:commandLink value="#{pubsinf.pubusersHiberEntity.firstname}"/>
+                                <!--actionListener="#{adminControler.getBillDetailsAndGotoAdminPubDet(pubsinf)}">-->
+                                <!--<p:ajax event="keyup" listener="#{magtbl.nameOfTitleValueChangeListenerMethod}"/>-->
+
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['upload.last.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{pubsinf.lastUploaded}"/></f:facet>
+                            <f:facet name="input"> <p:inputText value="#{pubsinf.lastUploaded}">
+                                <!--<p:ajax event="keyup" listener="#{magtbl.nameOfTitleValueChangeListenerMethod}"/>-->
+
+                            </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="#{text['file.name.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{pubsinf.lastIssueFileName}"/></f:facet>
+                            <f:facet name="input"> <p:inputText value="#{pubsinf.lastIssueFileName}"
+                                                                style="width: 70%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['files.uploaded.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{pubsinf.filesUploaded}"/></f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="filesuploaded" value="#{pubsinf.filesUploaded}"
+                                             validatorMessage="Issue Number is not valid">
+
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['address.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText
+                                    value="#{pubsinf.pubusersHiberEntity.streetname.concat(' '.concat(pubsinf.pubusersHiberEntity.streetnum))}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubsinf.pubusersHiberEntity.streetname}" style="width: 35%;"/>
+                                <p:inputText value="#{pubsinf.pubusersHiberEntity.streetnum}" style="width: 35%;"/>
+
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['city.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubsinf.pubusersHiberEntity.cityname}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubsinf.pubusersHiberEntity.cityname}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['postcode.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubsinf.pubusersHiberEntity.citynum}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubsinf.pubusersHiberEntity.citynum}"/>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+
+                    <p:column id="countryInputColumn" style="justify-content: center;"
+                              headerText="#{text['country.lbl.text']}">
+                        <div id="soxum">
+                            <p:cellEditor id="countryInputOutput">
+                                <f:facet name="output">
+                                    <h:outputText value="#{pubsinf.pubusersHiberEntity.country}"/>
+                                </f:facet>
+                                <f:facet id="countryInputFacet" name="input">
+                                    <p:autoComplete id="countryInput" value="#{pubsinf.pubusersHiberEntity.country}"
+                                                    dropdown="true" style="width: 60px;" scrollHeight="200"
+                                                    completeMethod="#{statistics.getcou}"/>
+
+                                </f:facet>
+                            </p:cellEditor>
+                        </div>
+                    </p:column>
+
+
+                    <p:column headerText="#{text['username.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText
+                                        value="#{pubsinf.pubusersHiberEntity.firstname.concat(' '.concat(pubsinf.pubusersHiberEntity.lastname))}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="userfirstname" style="width:35%"
+                                             value="#{pubsinf.pubusersHiberEntity.firstname}"/>
+                                <p:inputText id="userlastname" style="width:35%"
+                                             value="#{pubsinf.pubusersHiberEntity.lastname}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['email.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubsinf.pubusersHiberEntity.email}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="email" value="#{pubsinf.pubusersHiberEntity.email}" label="Email"
+                                             validatorMessage="#{text['email.is.not.valid']}">
+                                    <f:validateRegex
+                                            pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['phone.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubsinf.pubusersHiberEntity.phonenum}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubsinf.pubusersHiberEntity.phonenum}"/>
+
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['edit.text']}" width="50">
+                        <p:rowEditor/>
+                    </p:column>
+                    <p:column headerText="">
+
+                        <p:commandButton style="margin: auto;" value="#{text['go.reporting.text']}"
+                                         actionListener="#{adminControler.gotoReporting}"/>
+
+
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:dataTable
+                        emptyMessage="#{text['no.records.found']}"
+                        id="editpublisherbankaccounttbl" widgetVar="dttbleupbank" var="pubbankinf"
+                        value="#{adminControler.selectedPublisher}"
+                        editable="true"
+                        tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                        lazy="false">
+
+                    <p:column headerText="#{text['bank.name.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubbilltHiberEntity.bankname}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubbilltHiberEntity.bankname}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['acc.num.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubbilltHiberEntity.bankaccnum}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubbilltHiberEntity.bankaccnum}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['bank.code.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubbilltHiberEntity.bankcode}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubbilltHiberEntity.bankcode}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="#{text['recip.name.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubbilltHiberEntity.recipname}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubbilltHiberEntity.recipname}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="#{text['company.address']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText
+                                    value="#{pubbankinf.pubcompanyHiberEntity.streetname.concat(' '.concat(pubbankinf.pubcompanyHiberEntity.streetnum))}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.streetname}"
+                                             style="width: 30%;"/>
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.streetnum}" style="width: 30%;"/>
+
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="#{text['city.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubcompanyHiberEntity.cityname}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.cityname}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="#{text['postcode.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubcompanyHiberEntity.citypostcode}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.citypostcode}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column> <p:column headerText="#{text['country.lbl.text']}">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{pubbankinf.pubcompanyHiberEntity.country}"/>
+
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:autoComplete value="#{pubbankinf.pubcompanyHiberEntity.country}" dropdown="true"
+                                            style="width: 60px;" scrollHeight="200"
+                                            completeMethod="#{statistics.getcou}"/>
+
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                    <p:column headerText="#{text['corp.form.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubcompanyHiberEntity.corpform}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.corpform}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="#{text['tax.num.lbl.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubcompanyHiberEntity.taxnum}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.taxnum}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="#{text['corporate.reg.number']}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{pubbankinf.pubcompanyHiberEntity.corpregnum}"/>
+
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{pubbankinf.pubcompanyHiberEntity.corpregnum}"/>
+
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+
+                    <p:column headerText="#{text['edit.text']}" width="50">
+                        <p:rowEditor/>
+                    </p:column>
+
+
+                </p:dataTable>
+                <p:commandButton id="updateButton" value="#{text['update.btn.text']}"
+                                 actionListener="#{adminControler.updateSelectedPublisherInfos}"/>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+</html>

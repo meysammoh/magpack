@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+
+    <h:link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>-->
+    <link href="${facesContext.externalContext.requestContextPath}/css/custom.css" rel="stylesheet" type="text/css"/>
+
+    <title>MagPack</title>
+    <c:if test="#{localeBean.language eq 'fa'}">
+        <link href="${facesContext.externalContext.requestContextPath}/css/rtl.css" rel="stylesheet" type="text/css"/>
+        <script type="application/javascript"
+                src="${facesContext.externalContext.requestContextPath}/javascript/persian-number-converter.js"/>
+
+    </c:if>
+</h:head>
+<h:body dir="#{localeBean.language eq 'fa' ? 'rtl' : 'ltr'}" class=" ui-panel ui-widget">
+    <p:tab title="Add publisher">
+        <h:form id="classifyDialogForm">
+
+            <div>
+                <p:panel id="mediumimg">
+                    <div style="margin: auto;width:400px;">
+                        <p:graphicImage style="margin-left: auto;margin-right: auto;height:auto;" id="mediumpageview"
+                                        width="350"
+                                        value="#{pageTypeDfinationView.currentViewPage.largImg}"
+                                />
+                        <h:outputLabel style="width: 100%;text-align: center;"
+                                       value="#{pageTypeDfinationView.currentViewPage.pageType}"/>
+
+                        <div id="btns" style="margin: auto">
+
+                            <p:commandButton style="width: 30%" value="#{text['cat.text.only.text']}"
+                                             actionListener="#{pageTypeDfinationView.setAsTextOnlyPageType}"
+                                             update="mediumpageview updateela "/>
+                            <p:commandButton style="width: 30%" value="#{text['cat.ad.only.text']}"
+                                             actionListener="#{pageTypeDfinationView.setAsAdPageType}"
+                                             update="mediumpageview updateela "/>
+                            <p:commandButton style="width: 30%" value="#{text['cat.mixed.text']}"
+                                             actionListener="#{pageTypeDfinationView.setAsMixedPageType()}"
+                                             update="mediumpageview updateela "/>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+
+
+            <p:panel id="updateela">
+                <div Class="limitedHeightDiv" style="width:600px;height: 165px;">
+                    <div style="width: #{fn:length(pageTypeDfinationView.classificationData.changePageTypes)*130}px;height: 150px;">
+                        <c:forEach var="res" items="#{pageTypeDfinationView.classificationData.changePageTypes}">
+
+
+                            <div class="pageimage" style="width: auto;">
+                                <p:graphicImage height="100" title="#{text['cat.page.type.text']}: #{res.pageType}"
+                                                value="#{res.smallImg}"
+                                        />
+                                <h:outputLabel style="width: 100%" value="#{res.pageType}"/>
+                            </div>
+
+
+                        </c:forEach>
+                    </div>
+                </div>
+            </p:panel>
+
+
+        </h:form>
+    </p:tab>
+</h:body>
+</html>

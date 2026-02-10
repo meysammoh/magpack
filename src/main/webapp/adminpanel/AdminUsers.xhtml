@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/admintemplates/breadcrumpUsers.xhtml">
+
+    <ui:define name="content">
+        <f:event listener="#{adminUsersBreadCrumbNav.navigateUsers}" type="preRenderView"/>
+
+
+        <h:form id="publishersListfrm">
+            <h:outputStylesheet>
+                .ui-paginator {
+                    font-family: Tahoma, Arial, Verdana, sans-serif;
+                }
+            </h:outputStylesheet>
+            <p:dataTable id="publisherstable"
+                         emptyMessage="#{text['no.records.found']}"
+                         var="userinf" value="#{adminControler.mobileUsers}"
+                         currentPageReportTemplate="{currentPage} #{text['of.text']} {totalRecords}"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown} "
+                         rowsPerPageTemplate="10,25,50,100"
+                         tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 12px;height: 25px;margin:0 auto;"
+                         lazy="false">
+
+
+                <p:column headerText="#{text['name.lbl.text']}">
+
+                    <p:commandLink
+                            value="#{userinf.fName.concat(' ').concat(userinf.lName)}"
+                            />
+
+
+                </p:column>
+                <p:column headerText="#{text['gender.text']}">
+
+                    <h:outputText value="#{userinf.geneder}"/>
+                </p:column>
+                <p:column headerText="#{text['member.since.text']}">
+                    <h:outputText value="#{userinf.regDate}">
+                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{text['device.text']}">
+                    <h:outputText value="#{userinf.device}"/>
+                </p:column>
+                <p:column headerText="#{text['premium.current.text']}">
+
+                    <h:outputText value="#{userinf.getIsPremiume()}"/>
+
+                </p:column>
+
+                <p:column headerText="#{text['premium.total.text']}">
+
+                    <h:outputText value="#{userinf.totalMountPremium}"/>
+
+                </p:column>
+
+                <p:column headerText="#{text['address.number.text']}">
+
+                    <h:outputText value="#{userinf.city.concat(' ').concat(userinf.streetNum)}"/>
+
+                </p:column>
+
+                <p:column headerText="#{text['postcode.text']}">
+
+                    <h:outputText value="#{userinf.postCode}"/>
+
+                </p:column>
+
+                <p:column headerText="#{text['city.lbl.text']}">
+
+                    <h:outputText value="#{userinf.city}"/>
+
+                </p:column>
+                <p:column headerText="#{text['country.lbl.text']}">
+
+                    <h:outputText value="#{userinf.country}"/>
+
+                </p:column>
+                <p:column headerText="#{text['email.text']}">
+
+                    <h:outputText value="#{userinf.email}"/>
+
+                </p:column>
+                <p:column headerText="#{text['birthday.text']}">
+
+                    <h:outputText value="#{userinf.bithday}">
+                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                    </h:outputText>
+
+                </p:column>
+
+
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</html>

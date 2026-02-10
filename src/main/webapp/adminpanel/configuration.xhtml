@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/admintemplates/templatePage.xhtml">
+
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="#{text['banner.tab.text']}" titleStyle="color: #080808">
+                <h:outputStylesheet>
+                    .ui-icon-check {
+                        margin-top: 0px !important;
+                    }
+
+                    .border-none td {
+                        border: none !important;
+                    }
+                </h:outputStylesheet>
+                <h:form enctype="multipart/form-data" id="topform">
+
+
+                    <p:growl id="updatesug" life="5000"/>
+                    <p:dataTable emptyMessage="#{text['no.records.found']}"
+                                 id="editpublishertbl" widgetVar="dttbleup" var="mag"
+                                 value="#{bannerConfig.bannersTblHiberEntities}"
+                                  rtl="true"
+                                 editable="true" scrollable="true" scrollHeight="400"
+                                 tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                                 lazy="false">
+                        <f:facet name="header">
+                            #{text['banner.configuration']}
+                        </f:facet>
+                        <p:column headerText="#{text['id']}" width="100">
+                            <h:panelGrid columns="1" columnClasses="border-none" rowClasses="border-none">
+                                <h:outputText value="#{mag.id}"/>
+
+                            </h:panelGrid>
+                        </p:column>
+                        <p:column headerText="#{text['magazine.id']}">
+                            <h:panelGrid columns="2" columnClasses="border-none" rowClasses="border-none">
+                                <h:form>
+                                    <p:commandButton id="hiddenCommand" styleClass="button"
+                                                     value="#{text['assign.magazine']}"
+                                                     disabled="#{mag.imgPath==null or mag.imgPath.equals('')}"
+                                                     actionListener="#{bannerConfigDialogMBean.showMagazineSelectorDialog(mag)}">
+                                        <p:ajax event="dialogReturn"
+                                                listener="#{bannerConfigDialogMBean.onDialogReturn}"
+                                                process="@this" update="@all"/>
+                                    </p:commandButton>
+                                </h:form>
+                                <h:outputText value="#{mag.magazineId}" style="width: 100px;direction: rtl"/>
+
+                            </h:panelGrid>
+                        </p:column>
+                        <!--
+                                                       <p:column headerText="#{text['suggested']}">
+                                                           <h:form id="chackboxform">
+                                                               &lt;!&ndash;<p:cellEditor>&ndash;&gt;
+                                                               &lt;!&ndash;<f:facet name="output">  <p:selectBooleanCheckbox value="#{cat.sug}" disabled="true"/></f:facet>&ndash;&gt;
+                                                               &lt;!&ndash;<f:facet name="input">&ndash;&gt;
+                                                               <p:selectBooleanCheckbox value="#{cat.sug}">
+                                                                   <p:ajax listener="#{suggestionCats.changeSug1(cat)}" update=":topform"/>
+                                                                   &lt;!&ndash;<p:ajax event="uncheck" listener="#{suggestionCats.changeSug(cat,false)}"     update=":topform"/>&ndash;&gt;
+
+                                                               </p:selectBooleanCheckbox>
+                                                               &lt;!&ndash;</f:facet>&ndash;&gt;
+
+                                                               &lt;!&ndash;</p:cellEditor>&ndash;&gt;
+                                                           </h:form>
+                                                       </p:column>
+                        -->
+                        <p:column headerText="#{text['banner']}">
+                            <h:panelGrid columns="2" columnClasses="border-none" rowClasses="border-none">
+                                <h:form enctype="multipart/form-data" style="border: none;">
+                                    <p:fileUpload fileUploadListener="#{mag.updateBannerImage}"
+                                                  style="width: 100px;"
+                                                  update="@all"
+                                                  process="@form"
+                                                  auto="true"
+                                                  sizeLimit="100000"
+                                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                                </h:form>
+                                <p:graphicImage
+                                        style="margin-left: auto;margin-right: auto;height:auto;max-height: 150px;max-width: 150px;"
+                                        id="mediumpageview"
+                                        width="350"
+                                        value="#{mag.imgPath}"/>
+
+                            </h:panelGrid>
+                            <p:growl id="messages" showDetail="true"/>
+                        </p:column>
+
+<!--
+                        <p:column id="deletecol" headerText="#{text['delete.text']}" width="100">
+
+                            <p:commandLink id="deleteLink" value="#{text['banner.delete.message']}"
+                                           styleClass="ui-icon ui-icon-trash"
+                                           actionListener="#{bannerConfig.deleteSelectedBanner(mag)}" update="@all"
+                                           process="@this">
+                                <p:confirm header="Confirmation" message="#{text['banner.delete.message']}"
+                                           icon="ui-icon-alert"/>
+                                &lt;!&ndash;<p:ajax event="click" actionListener="#{pubUserDet.deleteSelectedMag(magtbl)}"  />&ndash;&gt;
+
+                            </p:commandLink>
+                            <h:form id="deleteform">
+
+                                <p:confirmDialog global="true" showEffect="fade" message="#{text['delete.message']}"
+                                                 hideEffect="explode" severity="alert">
+                                    <p:commandButton value="#{text['yes.text']}" type="button"
+                                                     styleClass="ui-confirmdialog-yes" icon="ui-icon-check">
+                                        &lt;!&ndash;oncomplete="PF('cd').hide()" onclick="delrcom()"&ndash;&gt;
+                                    </p:commandButton>
+
+                                    <p:commandButton value="#{text['no.text']}" type="button"
+                                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                </p:confirmDialog>
+
+                            </h:form>
+                        </p:column>
+-->
+                        <!--<p:column headerText="Edit" width="50">-->
+                        <!--<p:rowEditor />-->
+                        <!--</p:column>-->
+                    </p:dataTable>
+
+
+                </h:form>
+            </p:tab>
+
+        </p:tabView>
+    </ui:define>
+</ui:composition>
+</html>

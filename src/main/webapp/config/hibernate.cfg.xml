@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+
+  <session-factory>
+    <property name="connection.datasource">java:/comp/env/jdbc/magazinedb</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+    <property name="hibernate.current_session_context_class">thread</property>
+    <!--<property name="connection.pool_size">100</property>-->
+    <property name="show_sql">true</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/magazinedb</property>
+
+    <mapping class="ir.mjm.DBAO.hiber.CategoriesTblHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.CustomerownedissuesHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.IssuepagebookmarkHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.IssuepagerequestHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.IssuepagesessionHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.MagazineTblHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.MagazineTitleHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.MobileuserTblHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.PagesHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.PubbilltHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.PubcompanyHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.PubusersHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.RolesHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.UsersHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.UsersRolesHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.MobileuserfavorHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.GcmRegistrationIdHiberEntity"/>
+    <mapping class="ir.mjm.DBAO.hiber.BannersTblHiberEntity"/>
+
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+
+    <h:link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>-->
+    <link href="${facesContext.externalContext.requestContextPath}/css/custom.css" rel="stylesheet" type="text/css"/>
+    <title>MagPack</title>
+    <c:if test="#{localeBean.language eq 'fa'}">
+        <link href="${facesContext.externalContext.requestContextPath}/css/rtl.css" rel="stylesheet" type="text/css"/>
+        <script type="application/javascript"
+                src="${facesContext.externalContext.requestContextPath}/javascript/persian-number-converter.js"/>
+
+    </c:if>
+</h:head>
+<h:body dir="#{localeBean.language eq 'fa' ? 'rtl' : 'ltr'}" class=" ui-panel ui-widget">
+
+    <p:tab title="Add publisher">
+        <h:form id="addPublisherDialogForm">
+            <p:growl id="growl" life="15000" sticky="flase" showDetail="false"/>
+
+            <p:panel header="#{text['personal.detail.text']}" style="width:500px; margin:auto;">
+                <p:messages/>
+
+                <div id="publisherRegisterDiv">
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        <h:outputText value="#{text['publisher.name.text']} "/>
+                        <p:inputText value="#{loginBean.newPubNaame}" label="publishername"></p:inputText>
+                        <h:outputText value="#{text['email.text']} "/>
+                        <p:inputText id="pubemail" value="#{loginBean.newPubEmail}" required="true"
+                                     label="#{text['email.text']}"
+                                     validatorMessage="#{text['email.validator.message']}">
+                            <f:validateRegex
+                                    pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                        </p:inputText>
+                        <p:commandButton id="addpublishercommand" value="#{text['add.btn.text']}"
+                                         style="right: 30%;left: 30%;"
+                                         actionListener="#{loginBean.addPublisher}" update="growl"/>
+
+                        <p:commandButton id="closeDialodId" value="#{text['close']}" style="left: 50%;right: 30%"
+                                         actionListener="#{addPublisherView.closeNetStat}" update="growl"/>
+
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
+    </p:tab>
+
+
+</h:body>
+</html>

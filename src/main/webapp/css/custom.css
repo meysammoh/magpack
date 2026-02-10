@@ -1,0 +1,608 @@
+h1 {
+    margin-top: 0;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.ui-icon {
+    margin-top: 6px;
+}
+
+#templateloginform {
+    width: 40%;
+    float: right;
+}
+
+#templateloginform\:hellouser {
+    float: left;
+}
+
+#templateloginform\:hellouser div {
+    background: #f7f7f7;
+}
+
+.ui-button {
+    border: none;
+    background: transparent !important;
+    border: none !important;
+}
+
+.ui-autocomplete-dropdown {
+    border: 1px solid #7096ab !important;
+}
+
+#templateloginform\:logoutbuttonbox {
+    width: 30%;
+    float: right;
+    background: transparent;
+}
+
+#templateloginform\:logoutbuttonbox div {
+    background: transparent;
+}
+
+#companydetailsgrid {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-widget-content {
+    border: none;
+}
+
+.label {
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    color: #4F4F4F;
+}
+
+body {
+    background-color: #ffffff;
+
+}
+
+.ui-widget {
+    background-color: #eee;
+    border-radius: 6px;
+    margin: 5px;
+}
+
+.ui-panel .ui-panel-titlebar {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size:20px;
+    border: none;
+    background: transparent;
+}
+
+.ui-widget-header .ui-inputfield, .ui-widget-content .ui-inputfield {
+    background-color: #ffffff;
+    box-shadow: none;
+}
+
+.ui-tabs .ui-tabs-nav {
+    background: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1300px;
+    /*border-radius: 6px;*/
+    /*border-color: #080808;*/
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+    color: white;
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    text-shadow: none;
+    color: #999;
+}
+
+.ui-tabs.ui-tabs-top > .ui-tabs-nav li {
+    border: none;
+    background: none;
+}
+
+.ui-state-default {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.calendaropacity input {
+    width: 92% !important;
+    opacity: 0.9 !important;
+}
+
+.ui-button-text-only span {
+
+    background-image: -webkit-linear-gradient(top, #428bca 0, #2d6ca2 100%);
+    background-image: linear-gradient(to bottom, #428bca 0, #2d6ca2 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff2d6ca2', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    color: white;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 6px;
+    border: solid 1px #2b669a;
+    text-shadow: none;
+}
+
+.ui-datatable .ui-datatable-header {
+    border: none;
+    background: #222;
+    color: white;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    background: inherit;
+}
+
+.ui-autocomplete-items .ui-state-highlight {
+    background: inherit;
+    color: #245269;
+    font-weight: bold;
+    text-shadow: none !important;
+}
+
+.ui-autocomplete .ui-autocomplete-dropdown {
+    height: 80%;
+    left: 95%;
+}
+
+.ui-growl-title {
+    color: #ffffff;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    width: auto;
+}
+
+.ui-growl-item-container {
+    background: #aaa;
+}
+
+#magazinefrm\:magazinesdtbl {
+    border: none;
+}
+
+#donepart\:addmagazinebtn {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.ui-datatable .ui-paginator {
+    background: #eee;
+}
+
+#magazinefrm\:magazinesdtbl_head th, #magazinePageReportfrm\:magazinesdtbl_head th, #publishersListfrm\:publisherstable_head th,
+#editpublisherform\:editpublishertbl_head th, #editpublisherform\:editpublisherbankaccounttbl_head th {
+    background: #D8D8D8;
+
+}
+
+#magazinefrm\:magazinesdtbl_data a, #magazinePageReportfrm\:magazinesdtbl_data a, #publishersListfrm\:publisherstable_data a {
+    background: transparent;
+    color: #111;
+}
+
+#magazinefrm\:magazinesdtbl_data td, #magazinePageReportfrm\:magazinesdtbl_data td, #publishersListfrm\:publisherstable_data td {
+    border: none;
+}
+
+.ui-datatable-scrollable-header {
+    background: none;
+    border-right: solid 1px;
+}
+
+.ui-datatable-scrollable-body {
+    border-right: solid 1px;
+    border-left: solid 1px;
+}
+
+.ui-datatable-scrollable-header-box {
+    margin-right: 0 !important;
+}
+
+.ui-datatable-scrollable-body {
+    margin-right: 0 !important;
+}
+
+#CorporateAccount2 {
+    margin-top: 4px;
+}
+
+/*
+
+ ********************************   Menu    ***************************
+
+*/
+
+#menucontainer {
+    width: 100%;
+    overflow: auto;
+    background-image: -webkit-linear-gradient(top, #3c3c3c 0, #222 100%);
+    background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+#menucontainercenter {
+    margin: auto;
+    overflow: auto;
+}
+
+#mainmenubar {
+    background: transparent;
+    width: 60%;
+    float: left;
+}
+
+#menuitemlogout {
+    float: right;
+
+}
+
+#mainmenubar li, #mainmenubar label, #mainmenubar a, #menucontainercenter label {
+    background: transparent;
+    /*color: #999;*/
+    color: #ffffff;
+}
+
+#mainmenubar a, #menucontainercenter label, #menuitemlogout {
+    padding: 15px;
+}
+
+/*
+
+ ********************************   Breadcrumbs    ***************************
+
+*/
+#breadcrumbscontainer {
+    width: 100%;
+    overflow: auto;
+    background: #F2F2F2;
+}
+
+#breadcrumbs {
+    background: transparent;
+    border: none;
+}
+
+#breadcrumbscenter {
+    margin: auto;
+    overflow: auto;
+}
+
+/*
+
+ ********************************   Publisher Detail panel    ***************************
+
+*/
+#companydetailspanel {
+
+}
+
+#companybillgrid tbody {
+    height: 100%;
+}
+
+#companybillingpanel {
+    height: 100%;
+}
+
+#companybillingpanel_content {
+    margin-top: 50px;
+}
+
+#companydetailsgrid > tbody > tr > td, #companybillgrid > tbody > tr > td {
+    width: 50%;
+}
+
+#CorporateAccountForm\:CorporateAccountTable tbody > tr > td,
+#UserLoginDetailsForm tbody > tr > td {
+    width: 50%;
+}
+
+#CorporateAccountForm\:CorpColumn2 tbody > tr > td:nth-child(1), #CorporateAccountForm\:CorpColumn1 tbody > tr > td:nth-child(1),
+#companydetailsForm\:column1 tbody > tr > td:nth-child(1),
+#companybillingForm\:column111 tbody > tr > td:nth-child(1),
+#UserLoginDetailsForm\:column11 tbody > tr > td:nth-child(1),
+#UserLoginDetailsForm\:column22 tbody > tr > td:nth-child(1) {
+    width: 35%;
+}
+
+#CorporateAccountForm\:CorpColumn2 tbody > tr > td:nth-child(2) input, #CorporateAccountForm\:CorpColumn1 tbody > tr > td:nth-child(2) input,
+#companydetailsForm\:column1 tbody > tr > td:nth-child(2) input,
+#companybillingForm\:column111 tbody > tr > td:nth-child(2) input,
+#UserLoginDetailsForm\:column11 tbody > tr > td:nth-child(2) input,
+#UserLoginDetailsForm\:column22 tbody > tr > td:nth-child(2) input {
+    /*float:right;*/
+    width: 90%;
+}
+
+#companydetailsForm\:column1 .ui-autocomplete, #CorporateAccountForm\:CorpColumn2 tbody > tr > td:nth-child(2) .ui-autocomplete {
+    width: 83%;
+}
+
+/*
+
+ ********************************   Upload panel    ***************************
+
+*/
+#titlepanel {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#gridform\:uplvdatatablee_head th, #magazinefrm\:uplvdatatablee th {
+    background: #D8D8D8;
+
+}
+
+#gridform\:titleauto_input {
+    width: 95%;
+}
+
+#gridform\:uplvdatatablee > .ui-datatable-tablewrapper, #magazinefrm\:uplvdatatablee > .ui-datatable-tablewrapper {
+    border-right: solid 1px #a8a8a8;
+}
+
+#gridform\:uplvdatatablee_data td, #magazinefrm\:uplvdatatablee_data td {
+    border: solid 1px #a8a8a8;
+}
+
+#gridform\:uplvdatatablee_data .ui-editable-column input, #gridform\:uplvdatatablee_data .ui-cell-editor-input input,
+#magazinefrm\:uplvdatatablee_data .ui-editable-column input {
+    width: 90%;
+    text-align: left;
+}
+
+#gridform\:uplvdatatablee_data .ui-spinner-down, #magazinefrm\:uplvdatatablee_data .ui-spinner-down {
+    bottom: -5px;
+    right: -9px;
+}
+
+#gridform\:uplvdatatablee_data .ui-spinner-up, #magazinefrm\:uplvdatatablee_data .ui-spinner-up {
+    top: -5px;
+    right: -9px;
+}
+
+#gridform\:uploadgrid1 {
+    width: 100%;
+    margin: 5px;
+}
+
+.ui-fileupload-buttonbar {
+    background: none;
+}
+
+#gridform\:pdfformid\:fileuploader {
+    width: 100%;
+    margin: auto;
+}
+
+#gridform\:pdfformid\:fileuploader .ui-button-text {
+    background: #fff;
+}
+
+#donepartgrid {
+    width: 95%;
+}
+
+#donepartgrid .ui-widget-content {
+    background: transparent;
+    border: none;
+}
+
+#donepartgrid .ui-panelgrid-cell {
+    border: none;
+}
+
+/*
+
+ ********************************   Mazgazines list panel    ***************************
+
+*/
+
+#magazinefrm\:magazinestable > tbody > tr > td {
+    width: 75%;
+    border: none;
+}
+
+#magazinefrm\:magazinesdtbl_data td:nth-child(n+4) {
+    text-align: center;
+}
+
+/*
+
+ ********************************   footer    ***************************
+
+*/
+#footercontainer {
+    width: 100%;
+    overflow: auto;
+    background-image: -webkit-linear-gradient(top, #3c3c3c 0, #222 100%);
+    background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+#footercenter {
+    margin: auto;
+    overflow: auto;
+    color: #ffffff;
+    min-height: 70px;
+}
+
+#footercenter label {
+    padding: 20px;
+}
+
+/*
+
+ ********************************   PbMagazineSpecificTitle    ***************************
+
+*/
+#magazinefrm\:magazinemagtab {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+
+ ********************************   Issue Reports    ***************************
+
+*/
+#magazinefrm\:firstRowGrid, #magazinefrm\:secondRowGrid {
+    width: 100%;
+}
+
+#magazinefrm\:chartsGridFirstRow, #magazinefrm\:chartsGridSecondRow {
+    width: 100%;
+}
+
+#magazinefrm\:firstRowGrid > tbody > tr > td, #magazinefrm\:secondRowGrid > tbody > tr > td {
+    width: 25%;
+}
+
+#magazinefrm\:pagesGrid .ui-scrollpanel-drag {
+    background: #7C7C7C;
+}
+
+.limitedHeightDiv {
+    height: 200px;
+    width: 100%;
+    overflow: auto;
+}
+
+.pageimage {
+    width: 12%;
+    height: auto;
+    float: left;
+    padding: 8px;
+}
+
+#magazinefrm\:downloadsChartGrid {
+    width: 100%;
+}
+
+#magazinefrm\:downloadsChartGrid > tbody > tr > td {
+    width: 100%;
+    padding-top: 10px;
+}
+
+/*
+
+ ********************************   Issue page Reports    ***************************
+
+*/
+#IssuePageReportContainer {
+    overflow: auto;
+}
+
+#LeftColumn {
+    width: 66%;
+    float: left;
+}
+
+#RightColumn {
+    width: 30%;
+    float: right;
+}
+
+#magazinePageReportfrm\:firstRowGrid, #magazinePageReportfrm\:secondRowGrid {
+    width: 100%;
+}
+
+#magazinePageReportfrm\:chartsGridFirstRow, #magazinePageReportfrm\:chartsGridSecondRow {
+    width: 100%;
+}
+
+#magazinePageReportfrm\:firstRowGrid > tbody > tr > td, #magazinePageReportfrm\:secondRowGrid > tbody > tr > td {
+    width: 25%;
+}
+
+#magazinePageReportfrm\:pagesGrid .ui-scrollpanel-drag {
+    background: #7C7C7C;
+}
+
+#magazinePageReportfrm .limitedHeightDiv {
+    height: 500px;
+    width: 100%;
+    overflow: auto;
+}
+
+#magazinePageReportfrm .pageimage {
+    width: 14%;
+    height: auto;
+    float: left;
+    padding: 8px;
+}
+
+#magazinePageReportfrm\:downloadsChartGrid {
+    width: 100%;
+}
+
+#magazinePageReportfrm\:downloadsChartGrid > tbody > tr > td {
+    width: 100%;
+    padding-top: 10px;
+}
+
+/*
+
+ ********************************   Admin Publisher List    ***************************
+
+*/
+#publishersListfrm\:publisherstable_data td {
+    padding: 0;
+    font-size: 12px;
+}
+
+#publishersListfrm\:publisherstable_data td:nth-child(n+1) {
+    text-align: center;
+}
+
+#publishersListfrm\:publisherstable_data td span, #editpublisherform\:editpublishertbl_data td span, #btns span {
+    font-size: 12px;
+    font-weight: normal;
+}
+
+#editpublisherform\:editpublishertbl input, #editpublisherform\:editpublisherbankaccounttbl input {
+    width: 90%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+}
+
+#languageSelectorContainer {
+    float: right;
+    padding: 30px;
+}
+
+.ui-state-active{
+    background-color: gray !important;
+}
+/*
+.ui-icon-close {
+    display: none!important;
+}*/
+.ui-datatable-data td {
+    align:center!important;
+    text-align:center!important;
+    padding: 1px!important;
+}
+
+#gridform\:uplvdatatablee\:*\:onthistimedee_input {
+    width: 40%t;
+}
+.ui-cell-editor-input {
+    display: flex;
+}

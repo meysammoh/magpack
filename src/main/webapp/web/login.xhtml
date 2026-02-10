@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+    <title>MagPack</title>
+
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+    <c:if test="#{localeBean.language eq 'fa'}">
+        <link href="${facesContext.externalContext.requestContextPath}/css/rtl.css" rel="stylesheet" type="text/css"/>
+        <script type="application/javascript" src="${facesContext.externalContext.requestContextPath}/javascript/persian-number-converter.js"/>
+    </c:if>
+</h:head>
+<h:body id="dodyyy" style="background-color: #eee;">
+    <f:view locale="#{localeBean.locale}">
+        <f:event listener="#{loginBean.navigateIfLogin()}" type="preRenderView"/>
+
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <div class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </div>
+                    <a class="navbar-brand" href="/">MagPack</a>
+                </div>
+
+                <div id="languageSelectorContainer">
+                    <h:form id="languageSelectorForm">
+                        <h:selectOneMenu id="languageSelector" value="#{localeBean.language}" onchange="submit()">
+                            <f:selectItem itemValue="en" itemLabel="English"/>
+                            <f:selectItem itemValue="fa" itemLabel="فارسی"/>
+                        </h:selectOneMenu>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+
+        <div id="ccc1" class="container">
+
+            <h:form id="templateloginform" class="form-signin" role="form">
+
+                <h2><h:outputText value="#{text['login.msg.text']}"/></h2>
+                <p:growl id="logingrowl" life="1000000" sticky="true"
+                         dir="#{localeBean.language eq 'fa' ? 'rtl' : 'ltr'}" showDetail="false"/>
+
+                <p:inputText id="username" value="#{loginBean.username}" required="true"
+                             label="#{text['username.text']}" requiredMessage="#{text['username.mandatory.text']}"
+                             styleClass="form-control"/>
+                <p:watermark value="#{text['email.address.text']}" for="username" id="usernamewatermark"/>
+                <p:password id="passsword" value="#{loginBean.password}" required="true"
+                            label="#{text['password.text']}" requiredMessage="#{text['password.mandatory.text']}"
+                            styleClass="form-control"/>
+                <p:watermark value="#{text['password.text']}" for="passsword" id="passwatermark"/>
+
+                <p:selectBooleanCheckbox value="#{loginBean.rememberMe}" style="margin-left: 10px;float:#{localeBean.language eq 'fa'? 'right':'left'};"/>
+                <h:outputText style="margin-left: 10px;float:#{localeBean.language eq 'fa'? 'right':'left'};"
+                              value=" #{text['remmemberme']} "/>
+                <p:commandButton id="loginId" value="#{text['login.btn.text']}" actionListener="#{loginBean.doLogin}"
+                                 update="logingrowl" role="commandButton"
+                                 styleClass="btn btn-lg btn-primary btn-block"/>
+
+
+                <p:remoteCommand name="uibrc" id="rcuiid2"/>
+                <p:blockUI id="blockui" block="templateloginform" trigger="loginId">
+                    #{text['wait.message']}<br/>
+                    <p:graphicImage value="/icons/loading.gif"/>
+                </p:blockUI>
+            </h:form>
+
+        </div>
+    </f:view>
+</h:body>
+
+</html>

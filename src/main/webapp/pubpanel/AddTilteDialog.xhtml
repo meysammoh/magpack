@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xml:lang="en" lang="en">
+<head>
+    <title>MagPack</title>
+</head>
+<body>
+<h:form>
+    <h:panelGrid columns="2" id="addtitleGrid" columnClasses="label, value" style=";margin: auto; ">
+        <p:growl autoUpdate="true" life="2500"/>
+        <h:column>
+
+            <h:outputText value="Category of title"/>
+        </h:column>
+        <p:column>
+            <p:autoComplete immediate="true" dropdown="true" forceSelection="true"
+                            required="true" value="#{magazine_tblTable.category}"
+                            completeMethod="#{statistics.allCategoriesInLocalString}"/>
+        </p:column>
+        <h:column>
+
+            <h:outputText value="Category of title"/>
+        </h:column>
+        <p:column>
+
+            <p:inputText id="addtitledialog" value="#{pubUserDet.currenttitle}"/>
+        </p:column>
+
+        <p:commandButton value="ADD" actionListener="#{pubUserDet.addMagazine}"/>
+
+    </h:panelGrid>
+</h:form>
+</body>
+</html>

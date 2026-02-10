@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+    <title>MagPack</title>
+</h:head>
+<h:body dir="#{localeBean.language eq 'fa' ? 'rtl' : 'ltr'}">
+    <f:view locale="#{localeBean.locale}">
+        <ui:composition>
+
+            <!--<p:notificationBar autoDisplay="true" position="top" effect="slide" styleClass="top" widgetVar="bar">-->
+            <div id="menucontainer">
+                <div id="menucontainercenter" style="width:#{statistics.width};">
+                    <div class="navbar-header">
+                        <p:outputLabel id="hipub" rendered="#{loginBean.loggedIn}">
+                            <h:outputFormat rendered="#{loginBean.loggedIn}" value="#{text['greeting.msg.text']}">
+                                <f:param value="#{loginBean.username}"/>
+                            </h:outputFormat>
+                        </p:outputLabel>
+                    </div>
+                    <p:menubar id="mainmenubar" styleClass="navbar-collapse">
+
+
+                        <p:menuitem id="menuitempubdet" value="#{text['pub.detail.menu.text']}"
+                                    url="/pubpanel/PubDetails.xhtml"
+                                    styleClass="#{view.viewId == '/pubpanel/PubDetails.xhtml' ? 'ui-state-active' : ''}"/>
+
+                        <p:menuitem id="menuitemupload" value="#{text['upload.menu.text']}"
+                                    url="/pubpanel/PubUpload.xhtml"
+                                    styleClass="#{view.viewId == '/pubpanel/PubUpload.xhtml' ? 'ui-state-active' : ''}"/>
+
+                        <p:menuitem id="menuitemmagazines" value="#{text['magazines.menu.text']}"
+                                    url="/pubpanel/PubMagazines.xhtml"
+                                    styleClass="#{view.viewId == '/pubpanel/PubMagazines.xhtml' ? 'ui-state-active' : ''}"/>
+
+                    </p:menubar>
+
+                    <div id="langandlogout">
+
+                        <div id="menuitemlogout">
+                            <h:form>
+                                <p:commandButton id="logoutbtn" value="#{text['logout.btn.text']}"
+                                                 rendered="#{loginBean.loggedIn}" action="#{loginBean.doLogout}"/>
+                            </h:form>
+                        </div>
+                        <div id="languageSelectorContainer">
+                            <h:form id="languageSelectorForm">
+                                <h:selectOneMenu id="languageSelector" value="#{localeBean.language}"
+                                                 onchange="submit()">
+                                    <f:selectItem itemValue="en" itemLabel="English"/>
+                                    <f:selectItem itemValue="fa" itemLabel="فارسی"/>
+                                </h:selectOneMenu>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--</p:notificationBar>-->
+        </ui:composition>
+    </f:view>
+</h:body>
+</html>
+        <!--<p:toolbar id="tb" styleClass="navbar navbar-inverse navbar-fixed-top" style="margin: auto;">-->
+        <!--<f:facet name="left">-->
+
+
+        <!--<h:form id="templateloginform">-->
+        <!--<p:growl id="logingrowl" life="5000" sticky="true" />-->
+
+        <!--<p:layoutUnit position="north" >-->
+
+
+        <!--<p:panelGrid id="loginpanel" columns="2" rendered="#{!loginBean.loggedIn}">-->
+        <!--<f:facet name="header">-->
+
+        <!--</f:facet>-->
+        <!--<p:row>-->
+        <!--<p:column>-->
+        <!--<p:outputLabel  value="User Name: " />-->
+        <!--</p:column>-->
+        <!--<p:column>-->
+        <!--<p:inputText  value="#{loginBean.username}" required="true" label="User Name"/>-->
+        <!--</p:column>-->
+
+        <!--</p:row>-->
+
+        <!--<p:row>-->
+        <!--<p:column>-->
+        <!--<p:outputLabel value="Password:  "/>-->
+        <!--</p:column>-->
+        <!--<p:column>-->
+        <!--<p:password id="passsword" value="#{loginBean.password}" required="true" label="Password"/>-->
+        <!--</p:column>-->
+        <!--<h:message errorClass="error" for="passsword" />-->
+
+        <!--</p:row>-->
+        <!--<f:facet name="footer" >-->
+        <!--<p:commandButton id="loginId" value="Login" actionListener="#{loginBean.doLogin}" update="logingrowl"  />-->
+        <!--</f:facet>-->
+        <!--&lt;!&ndash;<p:message />&ndash;&gt;-->
+
+
+        <!--</p:panelGrid>-->
+        <!--<h:outputText rendered="#{loginBean.loggedIn}" value="Hi #{loginBean.username}"/>-->
+        <!--</p:layoutUnit>-->
+
+
+        <!--<f:facet name="right">-->
+        <!--<p:commandButton value="Log Out" rendered="#{loginBean.loggedIn}" action="#{loginBean.doLogout}"/>-->
+
+        <!--</f:facet>-->
+
+        <!--</h:form>-->
+        <!--</f:facet>-->
+        <!--<f:facet name="right">-->
+        <!--<p:commandButton value="Log Out" rendered="#{loginBean.loggedIn}" action="#{loginBean.doLogout}"/>-->
+
+        <!--</f:facet>-->
+        <!--</p:toolbar>-->

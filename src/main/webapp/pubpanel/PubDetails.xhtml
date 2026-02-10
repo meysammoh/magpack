@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/templatePage.xhtml">
+    <ui:define name="content">
+        <h:form id="prerenderform">
+            <p:growl id="userdeterr" life="8000" autoUpdate="false" for="prerenderform" redisplay="false"/>
+            <f:event listener="#{pubUserDet.isDataCompletedByPublisher()}" type="preRenderView"/>
+        </h:form>
+
+
+        <h:panelGrid id="companydetailsgrid" columns="1" style="height: 100%;width:#{statistics.width};">
+
+            <h:panelGrid columns="2" id="companybillgrid" style="height: 100%;width:#{statistics.width};">
+                <p:column style="height: 100%;width:100%;">
+                    <p:panel id="companydetailspanel" header="#{text['company.det.text']}" style="height: 100%;">
+                        <h:form id="companydetailsForm" style="height: 100%;">
+                            <h:panelGrid columns="2" id="column1" style="height: 100%;">
+                                <h:column>
+                                    <p:outputLabel value="#{text['name.lbl.text']} *  "/>
+                                </h:column>
+                                <h:column>
+                                    <p:inputText value="#{pubCompantDet.compname}" required="true"
+                                                 label="Name As Publisher"/>
+                                </h:column>
+
+                                <h:column>
+                                    <h:outputText value="#{text['address.lbl.text']} *"/>
+
+                                </h:column>
+                                <h:column>
+                                    <p:inputText id="pubstreet" value="#{pubCompantDet.streetname}" required="true"
+                                                 label="Street" style="width: 54%;"/>
+                                    <p:watermark value="#{text['street.lbl.text']}" for="pubstreet"/>
+
+                                    <p:inputText id="pubstreetnum" value="#{pubCompantDet.streetnum}" required="true"
+                                                 label="Street No." style="width: 33% "/>
+                                    <p:watermark value="#{text['street.num.watermark.text']}" for="pubstreetnum"/>
+                                </h:column>
+
+
+                                <h:column>
+                                    <h:outputText value="#{text['city.lbl.text']} *"/>
+                                </h:column>
+                                <h:column>
+
+                                    <p:inputText id="cityname" value="#{pubCompantDet.cityname}" required="true"
+                                                 label="city" style="width: 54% "/>
+                                    <p:watermark value="#{text['city.lbl.text']}" for="cityname"/>
+                                    <p:inputText id="pubcitynumber" value="#{pubCompantDet.citypostcode}"
+                                                 required="true" label="Publisher City Number" style="width: 33% "/>
+                                    <p:watermark value="#{text['post.code.watermark.text']}" for="pubcitynumber"/>
+
+                                </h:column>
+
+                                <h:column>
+                                    <h:outputText value="#{text['country.lbl.text']} *"/>
+                                </h:column>
+                                <h:column>
+                                    <p:autoComplete value="#{pubCompantDet.country}" dropdown="true" scrollHeight="200"
+                                                    completeMethod="#{statistics.getcou}"/>
+
+                                </h:column>
+
+                                <h:column>
+
+                                    <h:outputText value="#{text['tax.num.lbl.text']} "/>
+                                </h:column>
+                                <h:column>
+
+                                    <p:inputText value="#{pubCompantDet.taxnum}" label="tax_num"/>
+                                </h:column>
+
+                                <h:column>
+
+                                    <h:outputText value="#{text['corp.reg.num.lbl.text']} " style="width: 400px"/>
+                                </h:column>
+                                <p:column>
+
+                                    <p:inputText value="#{pubCompantDet.corpregnum}" label="corp_reg_num"/>
+                                </p:column>
+
+                                <p:column colspan="2">
+                                    <p:growl id="tab1growl" sticky="flase" showDetail="false"/>
+
+                                    <p:commandButton id="pubcompdetupdater" value="#{text['update.btn.text']}"
+                                                     actionListener="#{pubCompantDet.addOrUpdate}" update="tab1growl"/>
+                                </p:column>
+
+                            </h:panelGrid>
+                        </h:form>
+
+                    </p:panel>
+                </p:column>
+                <p:column style="height: 100%;float: right;">
+                    <p:panel id="companybillingpanel" header="#{text['bill.detail.lbl.text']}">
+                        <h:form id="companybillingForm">
+                            <p:growl id="bildetvalidationmessage" life="2500"/>
+                            <h:panelGrid columns="2" id="column111" style="height: 100%;width:100%;" rowClasses="row"
+                                         cellpadding="13">
+                                <p:column>
+
+                                    <h:outputText value="#{text['acc.num.lbl.text']}: "/>
+                                </p:column>
+                                <p:column>
+
+                                    <p:inputText value="#{pubBillDet.bankaccnum}" label="pub_bank_acc_num"/>
+                                </p:column>
+                                <p:column>
+
+                                    <h:outputText value="#{text['bank.code.lbl.text']}: "/>
+                                </p:column>
+                                <p:column>
+
+                                    <p:inputText value="#{pubBillDet.bankcode}" label="pub_bank_code"/>
+                                </p:column>
+                                <p:column>
+
+                                    <h:outputText value="#{text['bank.name.lbl.text']}: "/>
+                                </p:column>
+                                <p:column>
+
+                                    <p:inputText value="#{pubBillDet.bankname}" label="pub_bank_name"/>
+                                </p:column>
+                                <p:column>
+
+                                    <h:outputText value="#{text['recip.name.lbl.text']}: "/>
+                                </p:column>
+                                <p:column>
+
+                                    <p:inputText value="#{pubBillDet.recipname}" label="pub_recipient_name"/>
+                                </p:column>
+
+                                <p:commandButton value="#{text['update.btn.text']}"
+                                                 actionListener="#{pubBillDet.addOrUpdate}"
+                                                 update="bildetvalidationmessage"/>
+
+
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </p:column>
+            </h:panelGrid>
+            <h:panelGrid id="CorporateAccount2" style="height: 100%;width:#{statistics.width};">
+                <p:column colspan="2" id="CorporateAccount" style="height: 100%;">
+
+                    <p:panel header="#{text['usr.det.text']} *">
+
+                        <h:form id="CorporateAccountForm">
+
+                            <h:panelGrid id="CorporateAccountTable" columns="2" style="width:100%;">
+                                <h:panelGrid id="CorpColumn1" columns="2" style="height: 100%;">
+                                    <p:column>
+                                        <h:outputText value="#{text['first.name.text']}* "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{pubUserDet.firstname}" label="Firstname" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{text['last.name.text']}* "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{pubUserDet.lastname}" label="Lastname" required="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{text['email.text']}* "/>
+                                    </p:column>
+                                    <h:column>
+                                        <p:inputText id="email" value="#{pubUserDet.email}" required="true"
+                                                     label="Email" validatorMessage="Email is not valid">
+                                            <f:validateRegex
+                                                    pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                                        </p:inputText>
+                                    </h:column>
+                                    <p:column>
+                                        <h:outputText value="#{text['phone.lbl.text']}:* "/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:inputText id="countrycode" value="#{pubUserDet.phonecode}" required="true"
+                                                     label="country Code" style="width: 33%;"/>
+                                        <p:watermark value="#{text['country.code.watermark.text']}" for="countrycode"/>
+
+                                        <p:inputText id="telephone" value="#{pubUserDet.phonenum}" required="true"
+                                                     label="TelePhone" style="width: 54%;"/>
+                                        <p:watermark value="#{text['phone.number.watermark.text']}" for="telephone"/>
+
+
+                                    </p:column>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" id="CorpColumn2" style="height: 100%;">
+                                    <p:column>
+                                        <h:outputText value="#{text['prof.addr.lbl.text']}* "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="paddress" value="#{pubUserDet.streetname}" required="true"
+                                                     label="Street" style="width: 80px !important;"/>
+                                        <p:watermark value="#{text['street.lbl.text']}" for="paddress"/>
+
+                                        <p:inputText id="streetname" value="#{pubUserDet.streetnum}" required="true"
+                                                     label="Street Number" style="width: 63% !important;"/>
+                                        <p:watermark value="#{text['street.num.watermark.text']}" for="streetname"/>
+
+
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{text['city.lbl.text']}* "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText id="usercityname" value="#{pubUserDet.cityname}" required="true"
+                                                     label="city name" style="width: 80px !important;"/>
+                                        <p:watermark value="#{text['city.lbl.text']}" for="usercityname"/>
+
+                                        <p:inputText id="userpostcode" value="#{pubUserDet.citynum}" required="true"
+                                                     label="Post Code" style="width: 63% !important;"/>
+                                        <p:watermark value="#{text['post.code.watermark.text']}" for="userpostcode"/>
+
+
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{text['country.lbl.text']}* "/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:autoComplete value="#{pubUserDet.country}" dropdown="true"
+                                                        completeMethod="#{statistics.getcou}"/>
+
+                                    </p:column>
+
+
+                                </h:panelGrid>
+                                <p:column colspan="2">
+                                    <p:growl life="2500" id="usrgrowlmsg"/>
+
+                                    <p:commandButton actionListener="#{pubUserDet.addOrUpdate}"
+                                                     value="#{text['update.btn.text']}" id="userdetupdate"
+                                                     update="usrgrowlmsg"/>
+                                </p:column>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+
+                </p:column>
+            </h:panelGrid>
+
+            <h:panelGrid style="height: 100%;width:#{statistics.width};">
+                <p:column colspan="2" style="height: 100%;width:100%">
+                    <p:panel header="#{text['usr.login.det.text']}">
+                        <h:form id="UserLoginDetailsForm">
+
+                            <p:messages/>
+                            <h:panelGrid columns="2" style="width:100%;">
+                                <h:panelGrid columns="2" id="column11" cellspacing="3">
+                                    <h:column>
+                                        <h:outputText for="userid" value="#{text['login.username.text']}"/>
+
+                                    </h:column>
+                                    <h:column>
+                                        <h:outputLabel id="userid" disabled="true" value="#{loginBean.username}"
+                                                       style="margin:auto;"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:outputText for="oldpassout" value="#{text['old.pass.text']}"/>
+                                    </h:column>
+                                    <h:column>
+
+                                        <p:password id="oldpassout" value="#{loginBean.password}" label="Password"/>
+                                    </h:column>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" id="column22" cellspacing="3">
+
+                                    <h:column>
+                                        <h:outputText for="pwd1" value="#{text['new.pass.text']}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <p:password id="pwd1" value="#{loginBean.newpass}" feedback="false" match="pwd2"
+                                                    label="Confirm New Password Don't Match " required="true"/>
+                                    </h:column>
+                                    <h:column>
+                                        <h:outputText for="pwd2" value="#{text['new.pass.confirm.text']} "/>
+                                    </h:column>
+                                    <h:column>
+                                        <p:password id="pwd2" value="#{loginBean.newpass}" feedback="false"
+                                                    label="Confirm New Password " required="true"/>
+                                    </h:column>
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="1">
+
+                                    <p:growl life="2500" id="paagrowl"/>
+
+                                    <p:commandButton actionListener="#{loginBean.updatePass}"
+                                                     value="#{text['update.pass.btn.text']}" id="passchnbtn"
+                                                     update="paagrowl">
+                                    </p:commandButton>
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </h:form>
+                    </p:panel>
+                </p:column>
+
+            </h:panelGrid>
+        </h:panelGrid>
+
+    </ui:define>
+</ui:composition>
+</html>

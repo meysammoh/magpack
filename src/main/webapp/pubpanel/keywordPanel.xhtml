@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:j="http://xmlns.jcp.org/jsf/core"
+
+      xmlns:p="http://primefaces.org/ui"
+        >
+<h:head>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+
+    <h:link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>-->
+    <link href="${facesContext.externalContext.requestContextPath}/css/custom.css" rel="stylesheet" type="text/css"/>
+    <title>MagPack</title>
+
+</h:head>
+<h:body class=" ui-panel ui-widget">
+
+    <h:form enctype="multipart/form-data" id="form1" style="max-height: 600px;">
+        <p:growl id="messages" showDetail="true"/>
+        <p:panelGrid columns="1" style="width: 90%;height: inherit">
+            <p:panel header="#{text['add.keyword']}">
+                <p:panelGrid columns="2">
+                    <h:outputLabel for="item" value="#{text['keyword']} : "/>
+                    <p:inputText id="item" value="#{keywordChangeDialog.newKeyword}"/>
+                    <j:facet name="footer">
+                        <p:commandButton value="#{text['add.btn.text']}" update=":form1"
+                                         actionListener="#{keywordChangeDialog.addNewKeyword()}"/>
+                    </j:facet>
+                </p:panelGrid>
+                <p:spacer height="20px;"/>
+
+                <p:dataTable
+                        emptyMessage="#{text['no.records.found']}"
+                        value="#{keywordChangeDialog.magazineKeywords}"
+                        var="o"
+                        scrollable="true" scrollHeight="200" paginator="true" rows="10"
+                        rowsPerPageTemplate="10,25,50,100"
+                        tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 12px;height: 25px;margin:0 auto;"
+                        lazy="false"
+                        >
+                    <j:facet name="header">
+                        #{text['keywords.list']}
+                    </j:facet>
+                    <!--  <p:ajax event="rowEdit" listener="#{keywordChangeDialog.onEdit}" />
+                      <p:ajax event="rowEditCancel" listener="#{keywordChangeDialog.onCancel}" />-->
+                    <p:column>
+                        <j:facet name="header">
+                            <h:outputText value="#{text['keyword']}"/>
+                        </j:facet>
+                        <p:cellEditor>
+                            <j:facet name="output">
+                                <h:outputText value="#{o}"/>
+                            </j:facet>
+                            <j:facet name="input">
+                                <p:inputText value="#{o}" style="width:100%"/>
+                            </j:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <!-- <p:column headerText="#{texr['edit.text']}" style="width:100px">
+                         <p:rowEditor/>
+                     </p:column>-->
+                    <p:column headerText="#{text['delete.text']}">
+                        <p:commandLink value="#{text['delete.text']}"
+                                       actionListener="#{keywordChangeDialog.delete(o)}" update=":form1"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+
+            <p:commandButton value="#{text['ok']}" actionListener="#{keywordChangeDialog.close()}"
+                             style="margin-bottom: 1px;"/>
+        </p:panelGrid>
+    </h:form>
+
+</h:body>
+</html>

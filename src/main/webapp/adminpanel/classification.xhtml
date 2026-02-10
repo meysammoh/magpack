@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/admintemplates/templatePage.xhtml">
+    <ui:define name="content">
+        <h:form id="publishersListfrm">
+            <p:growl globalOnly="true" id="messages" life="5000" sticky="false"/>
+            <p:commandButton value="#{text['change.suggest.btn.text']}"
+                             actionListener="#{suggestionCats.viewSuggestions}"/>
+            <p:dataTable id="publisherstable"
+                         emptyMessage="#{text['no.records.found']}"
+                         var="maginf" value="#{adminControler.classificationDatas}"
+                         currentPageReportTemplate="{currentPage} #{text['of.text']} {totalRecords}"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown} "
+                         rowsPerPageTemplate="10,25,50,100"
+                         tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 12px;height: 25px;margin:0 auto;"
+                         lazy="false">
+
+
+                <p:column headerText="#{text['publisher.name.text']}">
+
+                    <p:commandLink
+                            value="#{maginf.publisherInfo.pubusersHiberEntity.firstname}"
+                            />
+
+
+                </p:column>
+                <p:column headerText="#{text['days.until.publish.text']}">
+
+                    <h:outputText value="#{maginf.dayUntilPublish}"/>
+                </p:column>
+                <p:column headerText="#{text['file.name.text']}">
+                    <h:outputText value="#{maginf.fileName}"/>
+
+                </p:column>
+                <p:column headerText="#{text['magazine.text']}">
+                    <h:outputText value="#{maginf.magazineName}"/>
+                </p:column>
+                <p:column headerText="#{text['magazine.convert.ok']}">
+                    <h:outputText value="#{maginf.magazine.constatus==1}"/>
+                </p:column>
+                <p:column headerText="">
+
+                    <h:commandButton value="#{text['classify.btn.text']}" disabled="#{maginf.magazine.constatus==0}"
+                                     actionListener="#{pageTypeDfinationView.viewClassifyPanel(maginf)}"/>
+
+                </p:column>
+
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

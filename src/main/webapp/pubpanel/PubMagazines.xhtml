@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/breadcrumbcomp.xhtml">
+    <ui:define name="content">
+        <f:event listener="#{breadCrumbNav.navigateAllTitle}" type="preRenderView"/>
+
+        <h:form id="magazinefrm">
+
+            <h:panelGrid columns="2" id="magazinestable" style="width:#{statistics.width};margin: auto; ">
+                <p:column>
+                    <p:dataTable
+                            emptyMessage="#{text['no.records.found']}"
+                            id="magazinesdtbl"
+                            styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker"
+                            draggableRows="true" var="magtbl1" value="#{pubUserDet.uploadedMagazineDB}"
+                            currentPageReportTemplate="{currentPage} #{text['of.text']} {totalRecords}"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {JumpToPageDropdown} "
+                            scrollable="true" scrollHeight="400" paginator="true" rows="10"
+                            rowsPerPageTemplate="10,25,50,100"
+                            editable="true" editMode="cell"
+                            tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                            lazy="false">
+                        <f:facet id="maglistheader" name="header">
+                            #{text['magazine.tbl.title']}
+                        </f:facet>
+
+
+                        <!--<p:column id="nameoftitlecolumn" headerText="#{text['title.text']}">
+
+                            <p:commandLink style="color:#269abc;" id="navigatortitlecommander" onclick="uibrc()"
+                                           value="#{magtbl1.magazine_tblTable.title}"
+                                           action="#{pubUserDet.getTitleIssuesAndRedirectToSelectedTitle(magtbl1.magazine_tblTable)}"/>
+
+                        </p:column>-->
+                        <p:column id="issue_date_column" headerText="#{text['issue.date.text']}">
+
+                            <h:outputText value="#{magtbl1.magazine_tblTable.orig_issue_date}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+
+                        </p:column>
+                        <p:column id="publish_date_column" headerText="#{text['publish.date.text']}">
+                            <h:outputText value="#{magtbl1.magazine_tblTable.issue_appear}">
+                                <f:convertDateTime pattern="yyyy-MM-dd"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column id="downloads_current_column" headerText="#{text['downloads.current.text']}">
+                            <h:outputText value="#{magtbl1.downloads_current_issue}"/>
+                        </p:column>
+                        <p:column id="issues_number_column" headerText="#{text['number.of.issues.text']}">
+
+                            <h:outputText value="#{magtbl1.issues}"/>
+
+                        </p:column>
+
+                        <p:column id="downloads_all_column" headerText="#{text['downloads.all.text']}">
+
+                            <h:outputText value="#{magtbl1.download_all_issues}" style="width: 72%"/>
+
+                        </p:column>
+                        <f:facet name="footer">
+
+                            <h:commandLink>
+                                <p:graphicImage style="width: 50px;height: 60px;" value="/icons/xml.gif"
+                                                title="#{text['excel.label']}"/>
+                                <p:dataExporter type="xls" fileName="magpack" target="magazinesdtbl"/>
+
+                            </h:commandLink>
+
+                            <!--<h:commandLink value="Page Data"  >-->
+                            <!--<p:graphicImage value="/icons/xml.png" title="Page Data" style="float: right"/>-->
+                            <!--<p:dataExporter type="xls" fileName="magpack"  target="magazinesdtbl" pageOnly="true"/>-->
+
+                            <!--</h:commandLink>-->
+
+                        </f:facet>
+                    </p:dataTable>
+
+                    <p:blockUI id="blockui" block="magazinesdtbl" trigger="rcuiid">
+                        #{text['wait.message']}<br/>
+                        <p:graphicImage value="/icons/loading.gif"/>
+                    </p:blockUI>
+
+                </p:column>
+                <p:column>
+                    <p:chart id="readers_pie_column" type="pie" model="#{chart.pieModel2}"
+                             style="height:300px;margin: auto;"/>
+                </p:column>
+                <p:column id="downloads_bar_column">
+                    <h:panelGrid id="downloadsChartGrid" columns="1">
+                        <p:column>
+                            <p:commandLink id="downloadsWeekLink" styleClass="label label-info"
+                                           actionListener="#{barChart.updateDownloadsChart('w')}"
+                                           update="downloadsBarChart">
+                                <h:outputText value="#{text['downloads.week.text']}"/>
+                                <span class="badge">#{barChart.downloadsThisWeek}</span>
+                            </p:commandLink>
+                            <p:commandLink id="downloadsMonthLink" styleClass="label label-info"
+                                           actionListener="#{barChart.updateDownloadsChart('m')}"
+                                           update="downloadsBarChart">
+                                <h:outputText value="#{text['downloads.month.text']}"/>
+                                <span class="badge"> #{barChart.downloadsThisMonth}</span>
+                            </p:commandLink>
+                            <p:commandLink id="downloadsYearLink" styleClass="label label-info"
+                                           actionListener="#{barChart.updateDownloadsChart('y')}"
+                                           update="downloadsBarChart">
+                                <h:outputText value="#{text['downloads.year.text']}"/>
+                                <span class="badge"> #{barChart.downloadsThisYear}</span>
+                            </p:commandLink>
+                        </p:column>
+                        <p:column>
+                            <p:chart id="downloadsBarChart" type="bar" model="#{barChart.barModel}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                    </h:panelGrid>
+                </p:column>
+                <p:column id="revenues_bar_column">
+                    <p:chart type="bar" model="#{barChart.revenusBarModel}" style="height:300px;"/>
+                </p:column>
+            </h:panelGrid>
+            <p:remoteCommand name="uibrc" id="rcuiid"/>
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

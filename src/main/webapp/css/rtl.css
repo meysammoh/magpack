@@ -1,0 +1,62 @@
+*{
+    font-family: Tahoma !important;
+}
+#mainmenubar li, .container div, #menucontainercenter > div,
+#templateloginform h2 {
+    float: right;
+}
+
+#langandlogout, #langandlogout > div, #languageSelectorContainer {
+    float: left !important;
+}
+
+#templateloginform input {
+    text-align: right;
+}
+
+.ui-growl-item span {
+    float: right;
+}
+
+#companydetailsgrid .ui-autocomplete .ui-autocomplete-dropdown,
+#gridform\:uploadgrid .ui-autocomplete .ui-autocomplete-dropdown {
+    left: -10%;
+}
+
+#gridform\:uploadpanel1 .ui-autocomplete .ui-autocomplete-dropdown {
+    left: -45%;
+}
+
+#breadcrumbs li {
+    background-position: -96px -16px;
+    float: right;
+}
+
+.ui-paginator-next span {
+    background-position: -48px -160px;
+}
+
+.ui-paginator-prev span {
+    background-position: -32px -160px;
+}
+
+.ui-paginator-last span {
+    background-position: -80px -160px;
+}
+
+.ui-paginator-first span {
+    background-position: -64px -160px;
+}
+
+#LeftColumn {
+    float: right;
+}
+
+#RightColumn {
+    float: left;
+}
+
+#magazinePageReportfrm .pageimage, .pageimage {
+    float: right;
+}
+

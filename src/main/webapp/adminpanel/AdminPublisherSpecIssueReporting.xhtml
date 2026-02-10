@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/admintemplates/breadcrumbcompPublishers.xhtml">
+
+    <ui:define name="content">
+        <f:event listener="#{adminPublishersBreadCrumbNav.navigatePublisherpecMagazineReport}" type="preRenderView"/>
+
+        <p:panel id="IssueReportContainer" style="width:#{statistics.width};margin: auto; ">
+            <h:form id="magazinefrm">
+                <div>
+                    <p:growl life="6000" id="magazineupdate"/>
+                    <p:commandButton value="#{text['update.btn.text']}"
+                                     actionListener="#{adminPublisherMagazines.updateMagazine}"
+                                     update="magazineupdate"/>
+
+
+                    <p:commandButton value="#{text['delete.text']}"
+                                     actionListener="#{adminPublisherMagazines.deactiveMagazine}"
+                                     update="magazineupdate" style="float: right">
+                        <p:confirm header="Deactive Magazine" message="Do you want to deactiive magazine?"
+                                   icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="drop">
+                        <p:commandButton value="#{text['yes.text']}" type="button" styleClass="ui-confirmdialog-yes"
+                                         icon="ui-icon-check"/>
+                        <p:commandButton value="#{text['no.text']}" type="button" styleClass="ui-confirmdialog-no"
+                                         icon="ui-icon-close"/>
+                    </p:confirmDialog>
+                </div>
+                <div>
+                    <h:outputStylesheet>
+                        .ui-autocomplete .ui-autocomplete-dropdown {
+                            height: 80%;
+                            left: 95%;
+                            right: 95%;
+                        }
+                    </h:outputStylesheet>
+                    <p:dataTable
+                            emptyMessage="#{text['no.records.found']}"
+                            id="uplvdatatablee" widgetVar="dttbleup" var="magtbl"
+                            value="#{adminPublisherMagazines.selectedCurrentMagazine}"
+                            editable="true"
+                            tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                            lazy="false">
+
+
+                        <p:column headerText="#{text['magazine.type']}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText
+                                        value="#{text[magtbl.magazine_tblTable.magazineType.val]}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="magazinetypeid" required="true" rendered="true"
+                                                     style="width: 90%;"
+                                                     value="#{magtbl.magazine_tblTable.uiMagazineType}">
+                                        <f:selectItem itemLabel="#{text['select.magazine.type']}" itemValue=""/>
+                                        <f:selectItems value="#{statistics.magazineTypes()}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="justify-content: center;" headerText="#{text['uploaded']}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.magazine_tblTable.date_time}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                    </h:outputText></f:facet>
+                                <f:facet name="input">
+                                    <p:calendar pattern="yyyy/MM/dd" size="10" required="true"
+                                                style="width: 100px;!important"
+                                                value="#{magtbl.magazine_tblTable.date_time}">
+                                        <p:ajax event="dateSelect"
+                                                listener="#{magtbl.magazine_tblTable.handleEditDate_Time}"/>
+                                    </p:calendar></f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+                        <!--<p:column headerText="#{text['title.name.text']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> <h:outputText
+                                        value="#{magtbl.magazine_tblTable.title}"/></f:facet>
+                                <f:facet name="input"> <p:inputText value="#{magtbl.magazine_tblTable.title}">
+                                    <p:ajax event="keyup"
+                                            listener="#{magtbl.magazine_tblTable.nameOfTitleValueChangeListenerMethod}"/>
+
+                                </p:inputText>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>-->
+                        <p:column headerText="#{text['title.cat.text']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> <h:outputText
+                                        value="#{magtbl.magazine_tblTable.uiCategory}"/></f:facet>
+                                <f:facet name="input"> <p:autoComplete forceSelection="true" dropdown="true"
+                                                                       required="true"
+                                                                       value="#{magtbl.magazine_tblTable.uiCategory}"
+                                                                       completeMethod="#{statistics.getAllCategoriesInLocalString}"
+                                                                       style="width: 70%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column> <p:column headerText="#{text['issue.number.text']}">
+                        <p:cellEditor>
+                            <f:facet name="output"> <h:outputText value="#{magtbl.magazine_tblTable.issue_num}"
+                                                                  immediate="true"/></f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="issuenumbbbeeerrr" value="#{magtbl.magazine_tblTable.issue_num}"
+                                             required="true" immediate="true"
+                                             validatorMessage="#{text['issue.number.validator.message']}">
+                                    <p:ajax event="keyup"
+                                            listener="#{magtbl.magazine_tblTable.issueNumberValueChangeListenerMethod}"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                        <p:column headerText="#{text['issue.year.text']}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{magtbl.magazine_tblTable.issue_year}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu id="yearofissuesel" required="true" rendered="true"
+                                                     style="width: 90%;"
+                                                     value="#{magtbl.magazine_tblTable.issue_year}">
+                                        <f:selectItem itemLabel="#{text['issue.year.btn.text']}" itemValue=""/>
+                                        <f:selectItems value="#{statistics.getYearsRange()}"/>
+                                    </p:selectOneMenu>
+
+
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="#{text['price.text']}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="€ #{magtbl.magazine_tblTable.price}"
+                                                                     rendered="true"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:spinner id="price" value="#{magtbl.magazine_tblTable.price}" prefix="€"
+                                               stepFactor="0.1"/>
+
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="#{text['appearance.text']}">
+                            <p:cellEditor>
+                                <f:facet name="output"> <h:outputText
+                                        value="#{magtbl.magazine_tblTable.uiAppertype}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:autoComplete dropdown="true" style="width: 70px;"
+                                                    value="#{magtbl.magazine_tblTable.uiAppertype}"
+                                                    completeMethod="#{statistics.getAppreanceTypes}"
+                                                    required="true"/></f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+                        <p:column style="justify-content: center;" headerText="#{text['orig.issue.date']}">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.magazine_tblTable.orig_issue_date}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                    </h:outputText></f:facet>
+                                <f:facet name="input">
+                                    <p:calendar pattern="yyyy/MM/dd" size="10" required="true"
+                                                style="width: 100px;!important"
+                                                value="#{magtbl.magazine_tblTable.orig_issue_date}">
+                                        <p:ajax event="dateSelect"
+                                                listener="#{magtbl.magazine_tblTable.handleDateSelectOrigIssue}"/>
+                                    </p:calendar></f:facet>
+                            </p:cellEditor>
+
+                        </p:column>
+
+                        <p:column id="ontisthimecol" headerText="#{text['appear.lbl.text']}">
+                            <p:cellEditor id="ontisthimecell">
+                                <f:facet name="output">
+                                    <h:outputText value="#{magtbl.magazine_tblTable.issue_appear}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                                    </h:outputText></f:facet>
+                                <f:facet name="input">
+                                    <p:calendar id="onthistimedee" pattern="yyyy/MM/dd"
+                                                value="#{magtbl.magazine_tblTable.issue_appear}" tyle="width: 105px;">
+                                        <p:ajax event="dateSelect"
+                                                listener="#{magtbl.magazine_tblTable.handleDateSelectissue_appear}"/>
+
+                                    </p:calendar>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="#{text['edit.text']}" width="50">
+                            <p:rowEditor/>
+                        </p:column>
+
+
+                    </p:dataTable>
+                </div>
+
+
+                <div id="magazinestable">
+                    <p:dataTable id="magazinesdtbl"
+                                 emptyMessage="#{text['no.records.found']}"
+
+                                 styleClass="ui-inputfield ui-widget ui-state-default ui-corner-all hasDatepicker"
+                                 var="magtblspecissue" value="#{adminPublisherMagazines.selectedCurrentMagazine}"
+
+                                 scrollable="true" rows="1"
+
+                                 tableStyle="width:100%;overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                                 lazy="false">
+
+
+                        <p:column headerText="#{text['issue.text']}">
+
+                            <h:outputText style="color:#269abc;"
+                                          value="#{statistics.getNonFullFormatDate(magtblspecissue.magazine_tblTable.orig_issue_date)}"/>
+
+
+                        </p:column>
+                        <p:column headerText="#{text['reader.age.avg.text']}">
+
+                            <h:outputText value="#{magtblspecissue.averageReaderAge}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </h:outputText>
+
+                        </p:column>
+                        <p:column headerText="#{text['geo.hotspot.postcode.text']}">
+                            <h:outputText value="#{magtblspecissue.geogrHotspotPostCode}"/>
+                        </p:column>
+                        <p:column headerText="#{text['page.view.avg.text']}">
+                            <h:outputText value="#{magtblspecissue.averagePageViews}">
+                                <f:convertNumber pattern="#,###,##0.00"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{text['page.view.total.text']}">
+
+                            <h:outputText value="#{magtblspecissue.totalPageViews}"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['adpage.view.total.text']}">
+
+                            <h:outputText value="#{magtblspecissue.totalAdPageViews}" style="width: 72%"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['reading.length.avg.text']}">
+
+                            <h:outputText
+                                    value="#{statistics.getInHHmmssFormatDouble(magtblspecissue.averageLengthPerReadingSession)}"
+                                    style="width: 72%"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['reading.session.total.text']}">
+
+                            <h:outputText value="#{magtblspecissue.totalaReadingsessions}" style="width: 72%"/>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['revenue.earned.text']}">
+
+                            <h:outputText value="#{magtblspecissue.revenuesEarned}" style="width: 72%">
+                                <f:convertNumber pattern="#,###,##0.00 €" maxIntegerDigits="10"/>
+                            </h:outputText>
+
+                        </p:column>
+
+                        <p:column headerText="#{text['download.total.text']} / #{text['range.total.text']}">
+
+                            <h:outputText value="#{magtblspecissue.totalDownloadsPerReach}" style="width: 72%"/>
+
+                        </p:column>
+
+                    </p:dataTable>
+                </div>
+                <h:panelGrid columns="1" id="chartsGridFirstRow">
+
+                    <h:panelGrid columns="4" id="firstRowGrid">
+                        <p:column id="AgeDistributionColumn">
+                            <p:chart type="pie" model="#{ageChart.agePieChart}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                        <p:column id="GeoDistributionColumn">
+                            <p:chart type="pie" model="#{geoChart.geoPieChart}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                        <p:column id="PageViewsPerWeekColumn">
+                            <p:chart type="bar" model="#{pageViewHorizontalChart.pageViewHorizontalBarModel}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                        <p:column id="AdPageViewsPerWeekColumn">
+                            <p:chart type="bar" model="#{pageViewHorizontalChart.adPageViewHorizontalBarModel}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                    </h:panelGrid>
+
+
+                </h:panelGrid>
+                <h:panelGrid columns="1" id="chartsGridSecondRow">
+
+                    <h:panelGrid columns="4" id="secondRowGrid">
+                        <p:column id="AvgLengthPerSessionColumn">
+                            <p:chart type="bar" model="#{pageViewHorizontalChart.averageSessionHorizental}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                        <p:column id="totalReadingSessionsColumn">
+                            <p:chart type="bar" model="#{pageViewHorizontalChart.totalSessionHorizental}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                        <p:column id="totalDownloadsColumn">
+                            <p:chart type="bar" model="#{pageViewHorizontalChart.totalDownloadsHorizental}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                        <p:column id="totalRevenuesColumn">
+                            <p:chart type="bar" model="#{pageViewHorizontalChart.revenueEarnedHorizental}"
+                                     style="width:100%;margin: auto;"/>
+                        </p:column>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+
+                <!--<div class="limitedHeightDiv">-->
+                <!--<c:forEach var="res" items="#{pubUserDet.listOfPageImageAdress}">-->
+                <!--<div class="pageimage">-->
+                <!--<p:graphicImage width="100%" height="100%"-->
+                <!--value="#{res.key}"-->
+                <!--/>-->
+                <!--<h:outputText value="0%"/>-->
+                <!--</div>-->
+                <!--</c:forEach>-->
+                <!--</div>-->
+
+                <div class="limitedHeightDiv">
+                    <c:forEach var="res" items="#{adminPublisherMagazines.listOfPageImageAdress}">
+                        <div class="pageimage">
+                            <p:graphicImage width="100%" height="100%"
+                                            value="#{res.imagePath}"
+                                    />
+                            <h:outputText value="#{res.readPercent} %"/>
+                        </div>
+                    </c:forEach>
+                </div>
+                <p:remoteCommand name="uibrc" id="rcuiid2"/>
+                <p:blockUI id="blockui" block="chartsGridFirstRow" trigger="rcuiid2">
+                    Please Wait<br/>
+                    <p:graphicImage value="/icons/loading.gif"/>
+                </p:blockUI>
+            </h:form>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>
+
+</html>

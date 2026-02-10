@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+
+    <h:link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>-->
+    <link href="${facesContext.externalContext.requestContextPath}/css/custom.css" rel="stylesheet" type="text/css"/>
+
+    <title>MagPack</title>
+
+</h:head>
+<h:body class=" ui-panel ui-widget" style="max-width: 800px;min-width:450px;max-height: 450px;">
+    <h:form id="topform">
+        <h:outputStylesheet>
+            .ui-icon-check {
+                margin-top: 0px !important;
+            }
+        </h:outputStylesheet>
+        <p:growl id="updatesug" life="5000"/>
+        <p:dataTable
+                emptyMessage="#{text['no.records.found']}"
+                id="editpublishertbl" widgetVar="dttbleup" var="cat"
+                value="#{suggestionCats.categoriesTblHiberEntities}"
+                editable="true" scrollable="true" scrollHeight="400"
+                tableStyle="overflow: hidden; text-overflow: ellipsis;font-size: 0.8em;margin:0 auto;"
+                lazy="false">
+            <f:facet name="header">
+                Change Suggestions
+            </f:facet>
+
+            <p:column headerText="#{text['category']}">
+                <h:outputText value="#{cat.category}"/>
+            </p:column>
+            <p:column headerText="#{text['suggested']}">
+                <h:form id="chackboxform">
+                    <!--<p:cellEditor>-->
+                    <!--<f:facet name="output">  <p:selectBooleanCheckbox value="#{cat.sug}" disabled="true"/></f:facet>-->
+                    <!--<f:facet name="input">-->
+                    <p:selectBooleanCheckbox value="#{cat.sug}">
+                        <p:ajax listener="#{suggestionCats.changeSug1(cat)}" update=":topform"/>
+                        <!--<p:ajax event="uncheck" listener="#{suggestionCats.changeSug(cat,false)}"     update=":topform"/>-->
+
+                    </p:selectBooleanCheckbox>
+                    <!--</f:facet>-->
+
+                    <!--</p:cellEditor>-->
+                </h:form>
+            </p:column>
+            <p:column headerText="#{text['image']}">
+                <p:graphicImage style="margin-left: auto;margin-right: auto;height:auto;" id="mediumpageview"
+                                width="350"
+                                value="#{cat.imgPath}"/>
+
+            </p:column>
+            <p:column>
+                <p:fileUpload fileUploadListener="#{cat.updateCategoryImage}"
+                              mode="advanced"
+                              update="messages :topform" auto="true" sizeLimit="100000"
+                              allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
+                <p:growl id="messages" showDetail="true"/>
+            </p:column>
+
+            <!--<p:column headerText="Edit" width="50">-->
+            <!--<p:rowEditor />-->
+            <!--</p:column>-->
+        </p:dataTable>
+        <p:commandButton value="#{text['update.suggestions']}" actionListener="#{suggestionCats.updateCategories}"
+                         update=":topform"/>
+    </h:form>
+</h:body>
+</html>

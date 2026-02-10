@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+
+      xmlns:p="http://primefaces.org/ui"
+        >
+
+<h:head>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+
+    <h:link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>-->
+    <link href="${facesContext.externalContext.requestContextPath}/css/custom.css" rel="stylesheet" type="text/css"/>
+    <title>MagPack</title>
+
+</h:head>
+<h:body class=" ui-panel ui-widget"
+        style="max-width: 800px;min-width:500px;max-height: 600px;height: 700px;width: 600px;">
+    <h:form enctype="multipart/form-data" id="topform" style="width: 100%">
+        <p:growl id="updatesug" life="5000"/>
+        <h:outputStylesheet>
+            .ui-radiobutton-icon {
+                margin-left: 0px;
+                margin-top: 0px !important;
+            }
+
+            /* .ui-autocomplete-dropdown {
+                 height: 70%;
+                 left: 107%;
+             }*/
+        </h:outputStylesheet>
+        <p:tab id="personal" title="Personal">
+            <p:panel header="Personal Details">
+                <p:messages/>
+                <h:panelGrid columns="2" columnClasses="label, value">
+
+                    <h:outputText value="#{text['publisher.company.name']}: *"/>
+                    <p:autoComplete forceSelection="true" dropdown="true"
+
+                                    value="#{magazineSelectionWizard.queryPublisherName}"
+                                    completeMethod="#{magazineSelectionWizard.pulisherCompanyName}"
+                                    style="width: 100%"/>
+
+                    <h:outputText value="#{text['publisher.id']}: *"/>
+                    <p:autoComplete forceSelection="true" dropdown="true"
+
+                                    value="#{magazineSelectionWizard.queryPublisherId}"
+                                    completeMethod="#{magazineSelectionWizard.pulisherCompanyIdLike}"
+                                    style="width: 100%"/>
+                    <p:commandButton update=":topform:radioDT" id="searchbtn" value="#{text['search']}"
+                                     actionListener="#{magazineSelectionWizard.searchMagazineOfPublisher}"/>
+
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <p:dataTable
+                            emptyMessage="#{text['no.records.found']}"
+                            id="radioDT" var="mag" value="#{magazineSelectionWizard.publishersMagazines}"
+                            selection="#{magazineSelectionWizard.selectedMagazine}" rowKey="#{mag.magazineId}"
+                            scrollHeight="400">
+                        <f:facet name="header">
+                            #{text['select.a.magazine']}
+                        </f:facet>
+                        <p:column selectionMode="single"/>
+                        <p:column headerText="#{text['id']}">
+                            <h:outputText value="#{mag.magazineId}"/>
+                        </p:column>
+                        <p:column headerText="#{text['publisher.id']}">
+                            <h:outputText value="#{mag.userId}"/>
+                        </p:column>
+                        <p:column headerText="#{text['title']}">
+                            <h:outputText value="#{mag.title}"/>
+                        </p:column>
+                        <p:column headerText="#{text['issue.number.text']}">
+                            <h:outputText value="#{mag.issueNum}"/>
+                        </p:column>
+                        <f:facet name="footer">
+
+                        </f:facet>
+                    </p:dataTable>
+                    <p:commandButton process="radioDT" value="#{text['ok']}"
+                                     actionListener="#{magazineSelectionWizard.userSelectMagazine}"/>
+                </h:panelGrid>
+            </p:panel>
+        </p:tab>
+
+
+    </h:form>
+</h:body>
+</html>

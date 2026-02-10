@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="#{localeBean.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:j="http://xmlns.jcp.org/jsf/core"
+
+      xmlns:p="http://primefaces.org/ui"
+        >
+<h:head>
+    <link rel="shortcut icon" href="${facesContext.externalContext.requestContextPath}/icons/favicon.ico"/>
+
+    <h:link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <link href="${facesContext.externalContext.requestContextPath}/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+    <!--<link href="${facesContext.externalContext.requestContextPath}/css/signin.css" rel="stylesheet" type="text/css"/>-->
+    <link href="${facesContext.externalContext.requestContextPath}/css/custom.css" rel="stylesheet" type="text/css"/>
+    <title>MagPack</title>
+
+</h:head>
+<h:body class=" ui-panel ui-widget">
+
+    <h:form enctype="multipart/form-data" id="form1" style="max-height: 600px;">
+        <p:growl id="messages" showDetail="true"/>
+        <p:panelGrid columns="1" style="width: 90%;height: inherit">
+            <p:panel header="#{text['description']}">
+                <p:panelGrid columns="1">
+                  <p:inputTextarea value="#{descriptionChangeDialog.currentMagazine.description}" />
+                </p:panelGrid>
+                <p:spacer height="20px;"/>
+
+           </p:panel>
+
+            <p:commandButton value="#{text['ok']}" actionListener="#{descriptionChangeDialog.close()}"
+                             style="margin-bottom: 1px;"/>
+        </p:panelGrid>
+    </h:form>
+
+</h:body>
+</html>
