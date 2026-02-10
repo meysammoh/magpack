@@ -1,3 +1,5 @@
+> **⚠️ Archived Project (2014)** — This is a historical portfolio piece, not actively maintained. Not recommended for forking or production use.
+
 # MagPack - Digital Magazine Distribution Platform (2014)
 
 A comprehensive web-based digital magazine distribution platform built with Java EE, featuring magazine publishing, PDF conversion, mobile app backend, and analytics dashboard.
